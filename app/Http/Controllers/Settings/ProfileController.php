@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -24,15 +23,8 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id),
-            ],
+            'name' => ['required', 'string', 'max:64'],
+            'email' => ['required', 'string', 'email', 'max:64', 'unique:'.User::class],
         ]);
 
         $user->fill($validated);

@@ -16,7 +16,9 @@
 
                 <div class="space-y-6">
                     <div class="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 dark:border-gray-800 text-gray-800 shadow-xs">
-                        <div class="px-10 py-8">{{ $slot }}</div>
+                        <div class="px-10 py-8">
+                            {{ $slot }}
+                        </div>
                     </div>
                 </div>
             </div>

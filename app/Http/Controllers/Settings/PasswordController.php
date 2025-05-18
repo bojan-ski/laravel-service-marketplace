@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class PasswordController extends Controller
@@ -22,7 +21,7 @@ class PasswordController extends Controller
     {
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', Rules\Password::defaults(), 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
         $request->user()->update([

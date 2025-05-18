@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\User;
 
 class RegistrationController extends Controller
 {
@@ -22,14 +20,16 @@ class RegistrationController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name' => ['required', 'string', 'max:64'],
+            'email' => ['required', 'string', 'email', 'max:64', 'unique:'.User::class],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'terms_and_conditions' => ['required', 'accepted'],
+            'privacy_policy' => ['required', 'accepted'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered(($user = User::create($validated))));
+        $user = User::create($validated);
 
         Auth::login($user);
 
