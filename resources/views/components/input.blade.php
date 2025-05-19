@@ -22,7 +22,7 @@
 <?php if ($label): ?>
     <x-field>
         <x-label :for="$id" :value="$label" />
-        <input {{ $formControlAttributes }} {{ $attributes->class($classes) }} value="{{ $value }}">
+            <input {{ $formControlAttributes }} {{ $attributes->class($classes) }} value="{{ $value }}">
         <x-error :for="$id" />
     </x-field>
 <?php else: ?>

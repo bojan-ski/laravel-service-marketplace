@@ -23,6 +23,7 @@ class RegistrationController extends Controller
             'name' => ['required', 'string', 'max:64'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:'.User::class],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'account_type' => ['required', 'string', 'in:client,freelancer'],
             'terms_and_conditions' => ['required', 'accepted'],
             'privacy_policy' => ['required', 'accepted'],
         ]);

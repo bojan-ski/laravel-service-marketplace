@@ -1,17 +1,19 @@
+@props(['link'])
+
 @php
-$classes = [
-    'col-start-1 row-start-1 appearance-none forced-colors:appearance-auto',
-    'shrink-0 size-5 rounded-md',
-    'text-sm text-gray-700 dark:text-gray-800',
-    'shadow-xs disabled:opacity-75 disabled:checked:opacity-50 disabled:shadow-none checked:shadow-none
-    indeterminate:shadow-none',
-    'border border-gray-300 dark:border-white/10',
-    'disabled:border-gray-200 dark:disabled:border-white/5',
-    'checked:border-transparent indeterminate:border-transparent',
-    'disabled:checked:border-transparent disabled:indeterminate:border-transparent',
-    'bg-white dark:bg-white/10',
-    'checked:bg-(--color-accent)',
-];
+    $classes = [
+        'col-start-1 row-start-1 appearance-none forced-colors:appearance-auto',
+        'shrink-0 size-5 rounded-md',
+        'text-sm text-gray-700 dark:text-gray-800',
+        'shadow-xs disabled:opacity-75 disabled:checked:opacity-50 disabled:shadow-none checked:shadow-none
+        indeterminate:shadow-none',
+        'border border-gray-300 dark:border-white/10',
+        'disabled:border-gray-200 dark:disabled:border-white/5',
+        'checked:border-transparent indeterminate:border-transparent',
+        'disabled:checked:border-transparent disabled:indeterminate:border-transparent',
+        'bg-white dark:bg-white/10',
+        'checked:bg-(--color-accent)',
+    ];
 @endphp
 
 <?php if ($label): ?>
@@ -26,8 +28,15 @@ $classes = [
                     stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
         </div>
-        <x-label :for="$id" :value="$label" />
+        @if ($link)
+            <a href="{{ $link }}" class="text-sm text-blue-500 hover:text-blue-700 cursor-pointer" target="_blank">
+                {{ $label }} 
+            </a>
+        @else
+            <x-label :for="$id" :value="$label" />            
+        @endif
     </div>
+    <x-error :for="$id" />
 <?php else: ?>
     <div class="group grid size-5 grid-cols-1">
         <input type="checkbox" {{ $formControlAttributes }} value="{{ $value }}" {{ $attributes->class($classes) }}>
@@ -39,4 +48,5 @@ $classes = [
                 stroke-linejoin="round"></path>
         </svg>
     </div>
+    <x-error :for="$id" />
 <?php endif; ?>

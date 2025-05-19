@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\ConfirmationController;
+use App\Http\Controllers\Auth\LegalController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegistrationController::class, 'create'])->name('register');
@@ -19,6 +20,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
+
+    Route::get('/privacy_policy', [LegalController::class, 'privacyPolicy'])->name('privacyPolicy');
+    Route::get('/terms_and_conditions', [LegalController::class, 'termsAndConditions'])->name('termsAndConditions');
 });
 
 Route::middleware('auth')->group(function () {
