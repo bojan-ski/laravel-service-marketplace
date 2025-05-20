@@ -28,6 +28,6 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('confirm-password', [ConfirmationController::class, 'create'])->name('password.confirm');
     Route::post('confirm-password', [ConfirmationController::class, 'store'])->name('confirmation.store');
-});
 
-Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
+    Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
+});

@@ -1,4 +1,4 @@
-@props(['link'])
+@props(['link' => null])
 
 @php
     $classes = [

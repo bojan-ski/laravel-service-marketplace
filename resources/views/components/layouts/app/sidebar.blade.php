@@ -14,24 +14,18 @@
             </a>
 
             <x-navlist>
-                <x-navlist.group :heading="__('Platform')">
-                    <x-navlist.item before="phosphor-house-line" :href="route('dashboard')" :current="request()->routeIs('dashboard')">
+                <x-navlist.group :heading="__('Sidebar')">
+                    <x-navlist.item :href="route('dashboard')" :current="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-navlist.item>
+
+                    <x-navlist.item :href="route('projects.create')" :current="request()->routeIs('projects.create')">
+                        {{ __('Create project') }}
                     </x-navlist.item>
                 </x-navlist.group>
             </x-navlist>
 
             <x-spacer />
-
-            <x-navlist>
-                <x-navlist.item before="phosphor-git-pull-request" href="https://github.com/imacrayon/blade-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </x-navlist.item>
-
-                <x-navlist.item before="phosphor-book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-                </x-navlist.item>
-            </x-navlist>
 
             <x-popover align="bottom" justify="left">
                 <button type="button" class="w-full group flex items-center rounded-lg p-1 hover:bg-gray-800/5 dark:hover:bg-white/10">
