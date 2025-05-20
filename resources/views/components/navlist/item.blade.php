@@ -8,7 +8,7 @@
 
 <a aria-current="{{ $current ? 'page' : '' }}" {{ $attributes->class([
     'h-10 lg:h-8 relative flex items-center space-x-2 rounded-lg',
-    'py-0 text-left w-full px-3 mb-3',
+    'py-0 text-left w-full px-3 mb-2',
     'text-gray-500 dark:text-white/80',
     'border border-transparent',
     'aria-current:text-(--color-accent-content) hover:aria-current:text-(--color-accent-content)',
