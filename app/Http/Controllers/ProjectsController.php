@@ -15,7 +15,12 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        //
+        // get all open projects
+        $openProjects = Project::latest()->where('status', 'open')->paginate(3);
+        // dd($openProjects);
+
+        // display/return view
+        return view('projects.index')->with('openProjects', $openProjects);
     }
 
     /**
@@ -50,16 +55,17 @@ class ProjectsController extends Controller
             $formData['document_path'] = $docPath;
         }
 
-       // get user id
-        $formData['user_id'] = Auth::id();
+        // get user id
+        // $formData['user_id'] = Auth::id();
 
         try {
             // create new project
-            Project::create($formData);
+            Project::create($request->all());
 
             // redirect user - with success msg
             return redirect()->route('dashboard')->with('success', 'Project posted successfully!');
         } catch (\Exception $e) {
+            dd($e);
             // redirect user - with error msg
             return back()->with('error', 'There was an error posting the new project!');
         }
@@ -68,9 +74,9 @@ class ProjectsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project): View
     {
-        //
+        return view('projects.show')->with('project', $project);
     }
 
     /**

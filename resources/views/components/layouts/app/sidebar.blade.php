@@ -15,8 +15,8 @@
 
             <x-navlist>
                 <x-navlist.group :heading="__('Sidebar')">
-                    <x-navlist.item :href="route('dashboard')" :current="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-navlist.item :href="route('projects.index')" :current="request()->routeIs('projects.index')">
+                        {{ __('Open projects') }}
                     </x-navlist.item>
 
                     <x-navlist.item :href="route('projects.create')" :current="request()->routeIs('projects.create')">

@@ -34,6 +34,6 @@ class RegistrationController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('projects.index', absolute: false));
     }
 }
