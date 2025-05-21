@@ -1,7 +1,7 @@
 @props(['project'])
 
 <div class="border rounded-lg p-4">
-    <h2 class="text-center text-lg mb-2">
+    <h2 class="text-center text-lg font-semibold mb-2">
         {{ $project->title }}
     </h2>
 
@@ -9,7 +9,7 @@
         {{ substr( $project->description, 0, 200) }} ...
     </p>
 
-    <div class="flex items-center justify-between mb-5">
+    <div class="font-semibold flex items-center justify-between mb-5">
         <p>
             {{ strtoupper($project->budget_type) }}
         </p>

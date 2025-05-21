@@ -27,7 +27,7 @@
         @endif
 
         @foreach ($options as $option)
-            <option value="{{ $option }}" {{ old($name, $value)==$option ? 'selected' : '' }}>
+            <option value="{{ $option }}" {{ old($name, $value) == $option ? 'selected' : '' }}>
                 {{ ucfirst($option) }}
             </option>
         @endforeach

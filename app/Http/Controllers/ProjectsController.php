@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Models\Project;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\OpenProjectRequest;
+use App\Models\Project;
 
 class ProjectsController extends Controller
 {
@@ -33,19 +33,10 @@ class ProjectsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(OpenProjectRequest $request): RedirectResponse
     {
         // validate form data
-        $formData = $request->validate([
-            'title' => 'required|string|max:64',
-            'description' => 'required|string|max:5000',
-            'requirements' => 'required|string|max:3000',
-            'budget_type' => 'required|string|in:fixed,hourly',
-            'budget_amount' => 'nullable|numeric|min:0',
-            'hour_price' => 'nullable|numeric|min:0',
-            'deadline' => 'required|string',
-            'document_path' => 'nullable|file|mimes:pdf,doc,docx|max:1024'
-        ]);
+        $formData = $request->validated();
 
         // if document is uploaded
         if ($request->hasFile('document_path')) {
@@ -62,7 +53,7 @@ class ProjectsController extends Controller
             Project::create($request->all());
 
             // redirect user - with success msg
-            return redirect()->route('dashboard')->with('success', 'Project posted successfully!');
+            return redirect()->route('projects.index')->with('success', 'Project posted successfully!');
         } catch (\Exception $e) {
             // redirect user - with error msg
             return back()->with('error', 'There was an error posting the new project!');
@@ -80,17 +71,31 @@ class ProjectsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project): View
     {
-        //
+        return view('projects.edit')->with('project', $project);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(OpenProjectRequest $request, Project $project): RedirectResponse
     {
-        //
+        // validate form data
+        $formData = $request->validated();
+
+        try {
+            // update project
+            $project->update($formData);
+
+            // redirect user - with success msg
+            $segments = request()->segments();
+
+            return redirect($segments[0] . '/' . $segments[1])->with('success', 'Project updated successfully.');
+        } catch (\Exception $e) {
+            // redirect user - with error msg
+            return back()->with('error', 'There was an error updating the project!');
+        }
     }
 
     /**
@@ -99,11 +104,11 @@ class ProjectsController extends Controller
     public function destroy(Project $project): RedirectResponse
     {
         // check if selected project status == open
-        if($project->status !== 'open') return back()->with('error', 'Only open projects can be deleted!');
+        if ($project->status !== 'open') return back()->with('error', 'Only open projects can be deleted!');
 
         try {
             // if document delete, document from storage
-            if($project->document_path){
+            if ($project->document_path) {
                 Storage::disk('public')->delete($project->document_path);
             }
 
