@@ -1,5 +1,10 @@
 <x-layouts.app :title="__('All new project')">
 
+    {{-- search option --}}
+    <section class="search-option text-center lg:text-start mb-5">
+        <x-projects.search-option />
+    </section>
+
     {{-- all open projects list --}}
     <section
         class="open-projects {{ $openProjects->isNotEmpty() ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7' : '' }} mb-5">

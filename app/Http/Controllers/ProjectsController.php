@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Models\Project;
 
@@ -16,8 +15,7 @@ class ProjectsController extends Controller
     public function index()
     {
         // get all open projects
-        $openProjects = Project::latest()->where('status', 'open')->paginate(3);
-        // dd($openProjects);
+        $openProjects = Project::latest()->where('status', 'open')->paginate(12);
 
         // display/return view
         return view('projects.index')->with('openProjects', $openProjects);
