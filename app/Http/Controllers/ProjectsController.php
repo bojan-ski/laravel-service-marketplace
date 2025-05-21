@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\Project;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectsController extends Controller
 {
@@ -63,7 +64,6 @@ class ProjectsController extends Controller
             // redirect user - with success msg
             return redirect()->route('dashboard')->with('success', 'Project posted successfully!');
         } catch (\Exception $e) {
-            dd($e);
             // redirect user - with error msg
             return back()->with('error', 'There was an error posting the new project!');
         }
@@ -96,8 +96,25 @@ class ProjectsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project): RedirectResponse
     {
-        //
+        // check if selected project status == open
+        if($project->status !== 'open') return back()->with('error', 'Only open projects can be deleted!');
+
+        try {
+            // if document delete, document from storage
+            if($project->document_path){
+                Storage::disk('public')->delete($project->document_path);
+            }
+
+            // delete from database
+            $project->delete();
+
+            // redirect user - with success msg           
+            return redirect()->route('projects.index')->with('success', 'Selected opn project deleted.');
+        } catch (\Exception $e) {
+            // redirect user - with error msg
+            return back()->with('error', 'There was an error deleting the project!');
+        }
     }
 }
