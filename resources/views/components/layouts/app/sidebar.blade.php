@@ -15,13 +15,31 @@
 
             <x-navlist>
                 <x-navlist.group :heading="__('Sidebar')">
+
                     <x-navlist.item :href="route('projects.index')" :current="request()->routeIs('projects.index')">
-                        {{ __('Open projects') }}
+                        {{ __('All open projects') }}
                     </x-navlist.item>
 
                     <x-navlist.item :href="route('projects.create')" :current="request()->routeIs('projects.create')">
                         {{ __('Create project') }}
                     </x-navlist.item>
+
+                    <x-navlist.item :href="route('client.open.projects')" :current="request()->routeIs('client.open.projects')">
+                        {{ __('My open projects') }}
+                    </x-navlist.item>
+
+                    <x-navlist.item :href="route('client.inProgress.projects')" :current="request()->routeIs('client.inProgress.projects')">
+                        {{ __('My in progress projects') }}
+                    </x-navlist.item>
+
+                    <x-navlist.item :href="route('client.completed.projects')" :current="request()->routeIs('client.completed.projects')">
+                        {{ __('My completed projects') }}
+                    </x-navlist.item>
+
+                    <x-navlist.item :href="route('client.cancelled.projects')" :current="request()->routeIs('client.cancelled.projects')">
+                        {{ __('My cancelled projects') }}
+                    </x-navlist.item>
+
                 </x-navlist.group>
             </x-navlist>
 

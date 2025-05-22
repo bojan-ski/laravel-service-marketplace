@@ -11,12 +11,11 @@ class Project extends Model
 {
     use HasFactory;
 
+    protected $table = 'projects';
     protected $guarded = [
         'user_id'
     ];
-    protected $table = 'projects';
     protected $fillable = [
-        'user_id',
         'title',
         'description',
         'requirements',
@@ -28,6 +27,7 @@ class Project extends Model
         'status',
     ];
 
+    // add user_id automatically to all new projects when posting a new project
     protected static function boot()
     {
         parent::boot();
@@ -37,6 +37,7 @@ class Project extends Model
         });
     }
 
+    // get client user projects - relation to the user table
     public function client(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

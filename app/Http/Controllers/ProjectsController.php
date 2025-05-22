@@ -45,12 +45,9 @@ class ProjectsController extends Controller
             $formData['document_path'] = $docPath;
         }
 
-        // get user id
-        // $formData['user_id'] = Auth::id();
-
         try {
             // create new project
-            Project::create($request->all());
+            Project::create($formData);
 
             // redirect user - with success msg
             return redirect()->route('projects.index')->with('success', 'Project posted successfully!');

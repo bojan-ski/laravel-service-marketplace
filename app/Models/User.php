@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -54,7 +53,37 @@ class User extends Authenticatable
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    // Get the projects for the client user - relation to the projects table
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    // Get all open projects for the user - relation to the projects table
+    public function openProjects()
+    {
+        return $this->projects()->where('status', 'open');
+    }
+
+    // Get all in progress projects for the user - relation to the projects table
+    public function inProgressProjects()
+    {
+        return $this->projects()->where('status', 'in_progress');
+    }
+
+    // Get all completed projects for the user - relation to the projects table
+    public function completedProjects()
+    {
+        return $this->projects()->where('status', 'completed');
+    }
+
+    // Get all cancelled projects for the user - relation to the projects table
+    public function cancelledProjects()
+    {
+        return $this->projects()->where('status', 'cancelled');
     }
 }

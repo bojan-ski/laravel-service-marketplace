@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('hour_price', 3, 2)->nullable();
             $table->date('deadline');
             $table->string('document_path')->nullable();
-            $table->enum('status', ['open', 'in_progress', 'pending_review', 'completed', 'cancelled'])->default('open');
+            $table->enum('status', ['open', 'in_progress', 'completed', 'cancelled'])->default('open');
             $table->timestamps();
         });
     }
