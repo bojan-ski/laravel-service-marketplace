@@ -19,7 +19,7 @@ class RegistrationController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
+        $formData = $request->validate([
             'name' => ['required', 'string', 'max:64'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:'.User::class],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
@@ -28,9 +28,9 @@ class RegistrationController extends Controller
             'privacy_policy' => ['required', 'accepted'],
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        $formData['password'] = Hash::make($formData['password']);
 
-        $user = User::create($validated);
+        $user = User::create($formData);
 
         Auth::login($user);
 
