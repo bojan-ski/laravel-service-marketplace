@@ -56,7 +56,7 @@
 
             {{-- document upload --}}
             <x-custom.file-upload-custom name='document_path' label='Attachment (Optional)'
-                smallText='Max 1MB each. Accepted formats: PDF, DOC, DOCX' />
+                smallText='Max 1MB. Accepted formats: PDF, DOC, DOCX' />
         </div>
 
         <div class="flex justify-end">
