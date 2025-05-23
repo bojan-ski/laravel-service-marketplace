@@ -18,7 +18,7 @@
         <x-projectData.deadline :project="$project" />
     </section>
 
-    {{-- if document, download document --}}
+    {{-- If document, download document option --}}
     @if($project->document_path)
         <x-projectData.download-document :project="$project" />
     @endif
@@ -28,7 +28,7 @@
         @if (Auth::id() == $project->user_id)
             {{-- Client user - Manage open project --}}
             <x-projectData.client.manage-open-project :project="$project" />            
-        @else
+        @elseif(Auth::user()->account_type == 'freelancer')
             {{-- Freelancer user - Bid for the open project --}}
             <x-projectData.freelancer.bid-for-open-project :project="$project" />
         @endif

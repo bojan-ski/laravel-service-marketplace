@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -59,31 +61,31 @@ class User extends Authenticatable
     }
 
     // Get the projects for the client user - relation to the projects table
-    public function projects()
+    public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
     }
 
     // Get all open projects for the user - relation to the projects table
-    public function openProjects()
+    public function openProjects(): Builder
     {
         return $this->projects()->where('status', 'open');
     }
 
     // Get all in progress projects for the user - relation to the projects table
-    public function inProgressProjects()
+    public function inProgressProjects(): Builder
     {
         return $this->projects()->where('status', 'in_progress');
     }
 
     // Get all completed projects for the user - relation to the projects table
-    public function completedProjects()
+    public function completedProjects(): Builder
     {
         return $this->projects()->where('status', 'completed');
     }
 
     // Get all cancelled projects for the user - relation to the projects table
-    public function cancelledProjects()
+    public function cancelledProjects(): Builder
     {
         return $this->projects()->where('status', 'cancelled');
     }

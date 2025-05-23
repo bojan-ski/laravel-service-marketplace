@@ -28,7 +28,7 @@ class Project extends Model
     ];
 
     // add user_id automatically to all new projects when posting a new project
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 

@@ -22,7 +22,8 @@
                     {{ __('All open projects') }}
                 </x-navlist.item>
 
-                @if (auth()->user() && auth()->user()->account_type == 'client')
+                @if (Auth::user()->account_type == 'client')
+                    {{-- Client user nav links --}}
                     <x-navlist.item :href="route('projects.create')" :current="request()->routeIs('projects.create')">
                         {{ __('Create project') }}
                     </x-navlist.item>
@@ -46,10 +47,15 @@
                         :current="request()->routeIs('client.cancelled.projects')">
                         {{ __('My cancelled projects') }}
                     </x-navlist.item>
-
                 @else
+                    {{-- Freelancer user nav links --}}
+                    <x-navlist.item :href="route('freelancer.bided.projects')"
+                        :current="request()->routeIs('freelancer.bided.projects')">
+                        {{ __('Bided projects') }}
+                    </x-navlist.item>
 
                 @endif
+            
             </x-navlist.group>
         </x-navlist>
 

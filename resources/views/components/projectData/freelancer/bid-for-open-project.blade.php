@@ -21,6 +21,10 @@
                     <x-custom.input-custom type='number' name='project_bid' label='Your bid'
                         value="{{ request('project_bid') }}" placeholder='Enter your bid' :required="true" />
 
+                    {{-- Estimated days --}}
+                    <x-custom.input-custom type='number' name='estimated_days' label='Your estimation'
+                        value="{{ request('estimated_days') }}" placeholder='Enter number of days' :required="true" />
+
                     {{-- Message --}}
                     <x-custom.textarea-custom name='bid_message' label='Your message'
                         value="{{ request('bid_message') }}" placeholder='Enter your message' rows='4'
@@ -39,7 +43,7 @@
                         </button>
                     </div>
 
-            </x-form>
+                </x-form>
         </div>
     </div>
 </section>
