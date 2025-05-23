@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
@@ -43,7 +44,9 @@ class Project extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // public function bids(){
-    //     return $this->hasMany(Bid::class);
-    // }
+    // get the bids for the project - relation to the bids table
+    public function bids(): HasMany
+    {
+        return $this->hasMany(Bid::class);
+    }
 }

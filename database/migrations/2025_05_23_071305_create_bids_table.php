@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('bid_amount', 10, 2);
             $table->integer('estimated_days');
             $table->text('message');
-            $table->enum('status', ['pending', 'awarded', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
 
             // one bid per project

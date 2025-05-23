@@ -60,33 +60,39 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    // Get the projects for the client user - relation to the projects table
+    // get the projects for the client user - relation to the projects table
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
     }
 
-    // Get all open projects for the user - relation to the projects table
+    // get all open projects for the user - relation to the projects table
     public function openProjects(): Builder
     {
         return $this->projects()->where('status', 'open');
     }
 
-    // Get all in progress projects for the user - relation to the projects table
+    // get all in progress projects for the user - relation to the projects table
     public function inProgressProjects(): Builder
     {
         return $this->projects()->where('status', 'in_progress');
     }
 
-    // Get all completed projects for the user - relation to the projects table
+    // get all completed projects for the user - relation to the projects table
     public function completedProjects(): Builder
     {
         return $this->projects()->where('status', 'completed');
     }
 
-    // Get all cancelled projects for the user - relation to the projects table
+    // get all cancelled projects for the user - relation to the projects table
     public function cancelledProjects(): Builder
     {
         return $this->projects()->where('status', 'cancelled');
+    }
+
+    // get all submitted bids by the freelancer user - relation to the bids table
+    public function submittedBids(): HasMany
+    {
+        return $this->hasMany(Bid::class, 'freelancer_id');
     }
 }
