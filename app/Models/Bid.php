@@ -11,13 +11,13 @@ class Bid extends Model
     use HasFactory;
 
     protected $table = 'bids';
-    protected $fillable=[
+    protected $fillable = [
         'project_id',
         'freelancer_id',
         'budget_type',
         'bid_amount',
         'estimated_days',
-        'message',
+        'bid_message',
         'status',
     ];
 
@@ -28,7 +28,7 @@ class Bid extends Model
     }
 
     // get the freelance user who submitted the bid - relation to the users table
-    public function freelancer():BelongsTo
+    public function freelancer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'freelancer_id');
     }
@@ -39,8 +39,8 @@ class Bid extends Model
         $this->update(['status' => 'accepted']);
 
         $this->project->bids()
-            ->where('id', '!=' , $this->id)
-            ->where('status', '==' , 'pending')
+            ->where('id', '!=', $this->id)
+            ->where('status', '==', 'pending')
             ->update(['status' => 'rejected']);
     }
 

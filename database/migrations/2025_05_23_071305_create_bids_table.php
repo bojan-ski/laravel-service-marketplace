@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->foreignId('freelancer_id')->constrained('users')->onDelete('cascade');
-            $table->enum('budget_type', ['fixed', 'hourly'])->default('fixed');
+            $table->enum('budget_type', ['fixed', 'hourly']);
             $table->decimal('bid_amount', 10, 2);
             $table->integer('estimated_days');
-            $table->text('message');
+            $table->text('bid_message');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
 

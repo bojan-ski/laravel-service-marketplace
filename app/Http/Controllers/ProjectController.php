@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\OpenProjectRequest;
 use App\Models\Project;
 
-class ProjectsController extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
