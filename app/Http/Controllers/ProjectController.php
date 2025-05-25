@@ -50,10 +50,10 @@ class ProjectController extends Controller
             Project::create($formData);
 
             // redirect user - with success msg
-            return redirect()->route('projects.index')->with('success', 'Project posted successfully!');
+            return redirect()->route('projects.index')->with('success', 'Project posted successfully');
         } catch (\Exception $e) {
             // redirect user - with error msg
-            return back()->with('error', 'There was an error posting the new project!');
+            return back()->with('error', 'There was an error posting the new project');
         }
     }
 
@@ -62,7 +62,11 @@ class ProjectController extends Controller
      */
     public function show(Project $project): View
     {
-        return view('projects.show')->with('project', $project);
+        // get all submitted bids related to the selected project
+        $submittedBids = $project->bids;
+
+        // display/return view
+        return view('projects.show')->with('project', $project)->with('submittedBids', $submittedBids);
     }
 
     /**
@@ -88,10 +92,10 @@ class ProjectController extends Controller
             // redirect user - with success msg
             $segments = request()->segments();
 
-            return redirect($segments[0] . '/' . $segments[1])->with('success', 'Project updated successfully.');
+            return redirect($segments[0] . '/' . $segments[1])->with('success', 'Project updated successfully');
         } catch (\Exception $e) {
             // redirect user - with error msg
-            return back()->with('error', 'There was an error updating the project!');
+            return back()->with('error', 'There was an error updating the project');
         }
     }
 
@@ -101,7 +105,7 @@ class ProjectController extends Controller
     public function destroy(Project $project): RedirectResponse
     {
         // check if selected project status == open
-        if ($project->status !== 'open') return back()->with('error', 'Only open projects can be deleted!');
+        if ($project->status !== 'open') return back()->with('error', 'Only open projects can be deleted');
 
         try {
             // if document delete, document from storage
@@ -113,10 +117,10 @@ class ProjectController extends Controller
             $project->delete();
 
             // redirect user - with success msg           
-            return redirect()->route('projects.index')->with('success', 'Selected open project deleted.');
+            return redirect()->route('projects.index')->with('success', 'Selected open project deleted');
         } catch (\Exception $e) {
             // redirect user - with error msg
-            return back()->with('error', 'There was an error deleting the project!');
+            return back()->with('error', 'There was an error deleting the project');
         }
     }
 }

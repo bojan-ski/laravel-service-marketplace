@@ -1,26 +1,16 @@
 @props(['bid'])
 
 <div class="border rounded-lg p-4">
-
-    {{-- Budget type & Delete bid --}}
+    {{-- Status & Delete bid --}}
     <div class="flex items-center justify-between mb-3 pb-2 border-b">
-        {{-- budget type --}}
+        {{-- status --}}
         <h2 class="text-lg font-semibold">
             {{ strtoupper($bid->status) }}
         </h2>
 
         @if ($bid->status == 'pending')
-        {{-- delete bid --}}
-        <form method="POST" action="{{ route('freelancer.bid.destroy', $bid) }}"
-            onsubmit="return confirm('Are you sure you want to delete the bid?')">
-            @csrf
-            @method("DELETE")
-
-            <button type="submit"
-                class="font-semibold px-2.5 py-1 text-sm bg-red-500 hover:bg-red-700 text-white rounded cursor-pointer transition">
-                X
-            </button>
-        </form>
+            {{-- delete bid --}}
+            <x-bids.delete-bid-card :bid="$bid"/>
         @endif
     </div>
 

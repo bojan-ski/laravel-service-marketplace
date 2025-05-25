@@ -36,11 +36,13 @@ class Bid extends Model
     // accept the bid - relation to the bids table
     public function acceptBid(): void
     {
+        // accept selected bid
         $this->update(['status' => 'accepted']);
 
+        // reject all other bids
         $this->project->bids()
             ->where('id', '!=', $this->id)
-            ->where('status', '==', 'pending')
+            ->where('status', 'pending')
             ->update(['status' => 'rejected']);
     }
 

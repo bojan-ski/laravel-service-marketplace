@@ -10,29 +10,13 @@ use App\Models\Project;
 class BidController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request, Project $project)
     {
         // check if bid exists
         $existingBid = $project->bids()->where('freelancer_id', Auth::id())->first();
-        if ($existingBid) return back()->with('error', 'You have already submitted a bid!');
+        if ($existingBid) return back()->with('error', 'You have already submitted a bid');
 
         // validate form data
         $formData = $request->validate([
@@ -51,35 +35,48 @@ class BidController extends Controller
             Bid::create($formData);
 
             // redirect user - with success msg
-            return back()->with('success', 'Bid created successfully!');
+            return back()->with('success', 'Bid created successfully');
         } catch (\Exception $e) {
             // redirect user - with error msg
-            return back()->with('error', 'There was an error creating a bid for the project!');
+            return back()->with('error', 'There was an error creating a bid for the project');
         }
     }
 
     /**
-     * Display the specified resource.
+     * Update/accept the specified resource in storage. 
      */
-    public function show(string $id)
+    public function accept(Project $project, Bid $bid)
     {
-        //
+        try {
+            // update/accept bid & update/reject all other bids
+            $bid->acceptBid();
+
+            // update project
+            $project->update(['status' => 'in_progress']);
+
+            // redirect user - with error msg
+            return back()->with('success', 'Bid accepted, project status updated: In progress');
+        } catch (\Exception $e) {
+            // redirect user - with error msg
+            return back()->with('error', 'There was an error accepting the bid');
+        }        
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update/reject the specified resource in storage.
      */
-    public function edit(string $id)
+    public function reject(Project $project, Bid $bid)
     {
-        //
-    }
+        try {
+            // update/reject bid
+            $bid->rejectBid();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+            // redirect user - with error msg
+            return back()->with('success', 'Bid rejected');
+        } catch (\Exception $e) {
+            // redirect user - with error msg
+            return back()->with('error', 'There was an error rejecting the bid');
+        }   
     }
 
     /**
@@ -87,18 +84,15 @@ class BidController extends Controller
      */
     public function destroy(Bid $bid)
     {
-        // check if selected bid status == pending
-        if ($bid->status !== 'pending') return back()->with('error', 'Only pending bids can be deleted!');
-
         try {
             // delete from database
             $bid->delete();
 
             // redirect user - with success msg           
-            return back()->with('success', 'Selected bid has been deleted.');
+            return back()->with('success', 'Selected bid has been deleted');
         } catch (\Exception $e) {
             // redirect user - with error msg
-            return back()->with('error', 'There was an error deleting the bid!');
+            return back()->with('error', 'There was an error deleting the bid');
         }
     }
 }
