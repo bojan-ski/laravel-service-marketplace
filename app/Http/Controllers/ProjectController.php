@@ -113,7 +113,7 @@ class ProjectController extends Controller
             $project->delete();
 
             // redirect user - with success msg           
-            return redirect()->route('projects.index')->with('success', 'Selected opn project deleted.');
+            return redirect()->route('projects.index')->with('success', 'Selected open project deleted.');
         } catch (\Exception $e) {
             // redirect user - with error msg
             return back()->with('error', 'There was an error deleting the project!');

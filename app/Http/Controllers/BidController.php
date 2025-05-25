@@ -85,8 +85,20 @@ class BidController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Bid $bid)
     {
-        //
+        // check if selected bid status == pending
+        if ($bid->status !== 'pending') return back()->with('error', 'Only pending bids can be deleted!');
+
+        try {
+            // delete from database
+            $bid->delete();
+
+            // redirect user - with success msg           
+            return back()->with('success', 'Selected bid has been deleted.');
+        } catch (\Exception $e) {
+            // redirect user - with error msg
+            return back()->with('error', 'There was an error deleting the bid!');
+        }
     }
 }

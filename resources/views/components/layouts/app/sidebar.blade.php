@@ -49,8 +49,8 @@
                     </x-navlist.item>
                 @else
                     {{-- Freelancer user nav links --}}
-                    <x-navlist.item :href="route('freelancer.bided.projects')"
-                        :current="request()->routeIs('freelancer.bided.projects')">
+                    <x-navlist.item :href="route('freelancer.bids')"
+                        :current="request()->routeIs('freelancer.bids')">
                         {{ __('Bided projects') }}
                     </x-navlist.item>
 
