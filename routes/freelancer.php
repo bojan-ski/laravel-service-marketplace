@@ -6,7 +6,8 @@ use App\Http\Middleware\FreelancerUserMiddleware;
 
 Route::middleware(['auth', FreelancerUserMiddleware::class])->group(function () {
     Route::get('/my_bids', [FreelancerUserController::class, 'freelancerBids'])->name('freelancer.bids');
+    Route::get('/my_bids/apply_select', [FreelancerUserController::class, 'applySelectOptionBids'])->name('freelancer.bids.apply.select');
 
     Route::get('/my_won_projects', [FreelancerUserController::class, 'freelancerWonProjects'])->name('freelancer.won.projects');
-    Route::get('/my_won_projects/apply_select', [FreelancerUserController::class, 'applySelectOptionWonProjects'])->name('freelancer.apply.select');
+    Route::get('/my_won_projects/apply_select', [FreelancerUserController::class, 'applySelectOptionWonProjects'])->name('freelancer.won.projects.apply.select');
 });

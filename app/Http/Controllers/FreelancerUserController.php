@@ -10,13 +10,42 @@ use App\Models\Project;
 
 class FreelancerUserController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
     /**
      * Display freelance user bids
      */
     public function freelancerBids(): View
     {
         // get freelance user bids
-        $freelanceBids = Auth::user()->submittedBids()->latest()->paginate(12);
+        $freelanceBids = $this->user->submittedBids()->latest()->paginate(12);
+
+        // display/return view
+        return view('freelancerUser.freelancer-bids')->with('freelanceBids', $freelanceBids);
+    }
+
+    /**
+     * Display freelance user bids
+     */
+    public function applySelectOptionBids(Request $request): View
+    {
+        // validate form data
+        $formData = $request->validate([
+            'freelancer_bids' => 'required|string|in:all,pending,accepted,rejected'
+        ]);
+
+        $bidStatus = $formData['freelancer_bids'];
+        
+        // check if form data == 'all'
+        if ($bidStatus == 'all') return $this->freelancerBids();
+
+        // get freelance user bids based on select option
+        $freelanceBids = $this->user->submittedBids()->where('status', $bidStatus)->latest()->paginate(12);
 
         // display/return view
         return view('freelancerUser.freelancer-bids')->with('freelanceBids', $freelanceBids);
@@ -33,7 +62,7 @@ class FreelancerUserController extends Controller
                 ->where('status', 'accepted');
         })
             ->latest()
-            ->paginate(1);
+            ->paginate(12);
 
         // display/return view
         return view('freelancerUser.freelancer-won-projects')->with('projects', $projects);
@@ -49,9 +78,9 @@ class FreelancerUserController extends Controller
             'freelancer_projects' => 'required|string|in:all,in_progress,completed,cancelled'
         ]);
 
-        // check if form data == 'all'
         $projectStatus = $formData['freelancer_projects'];
-
+        
+        // check if form data == 'all'
         if ($projectStatus == 'all') return $this->freelancerWonProjects();
 
         // get won projects based on select option
@@ -61,7 +90,7 @@ class FreelancerUserController extends Controller
         })
             ->where('status', $projectStatus)
             ->latest()
-            ->paginate(1);
+            ->paginate(12);
 
         // display/return view
         return view('freelancerUser.freelancer-won-projects')->with('projects', $projects);

@@ -1,14 +1,10 @@
-<x-layouts.app :title="__('All new project')">
+<x-layouts.app :title="__('Won project')">
 
     {{-- select option --}}
-    <form method="GET" action="{{ route('freelancer.apply.select') }}" x-data class="w-60 mb-5">
-        <x-custom.select-custom name='freelancer_projects' value="{{ request('freelancer_projects') }}" :required="true"
-            :options="['all', 'in_progress', 'completed', 'cancelled']" x-on:change="$root.submit()" />
-    </form>
+    <x-custom.form-select-custom route='freelancer.won.projects.apply.select' name='freelancer_projects' :options="['all', 'in_progress', 'completed', 'cancelled']"/>
 
     {{-- all open projects list --}}
-    <x-projects.projects-list-container :projects="$projects"
-        message='There are no projects' />
+    <x-projects.projects-list-container :projects="$projects" message='There are no projects' />
 
     {{-- pagination option --}}
     <section class="pagination-option">
