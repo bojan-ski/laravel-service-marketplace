@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClientUserMiddleware
+class FreelancerUserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class ClientUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->account_type !== 'client') return redirect()->route('projects.index');
+        if (Auth::user()->account_type !== 'freelancer') return redirect()->route('projects.index');
 
         return $next($request);
     }

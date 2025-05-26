@@ -67,25 +67,25 @@ class User extends Authenticatable
     }
 
     // get all open projects for the user - relation to the projects table
-    public function openProjects(): Builder
+    public function openProjects(): HasMany
     {
         return $this->projects()->where('status', 'open');
     }
 
     // get all in progress projects for the user - relation to the projects table
-    public function inProgressProjects(): Builder
+    public function inProgressProjects(): HasMany
     {
         return $this->projects()->where('status', 'in_progress');
     }
 
     // get all completed projects for the user - relation to the projects table
-    public function completedProjects(): Builder
+    public function completedProjects(): HasMany
     {
         return $this->projects()->where('status', 'completed');
     }
 
     // get all cancelled projects for the user - relation to the projects table
-    public function cancelledProjects(): Builder
+    public function cancelledProjects(): HasMany
     {
         return $this->projects()->where('status', 'cancelled');
     }
