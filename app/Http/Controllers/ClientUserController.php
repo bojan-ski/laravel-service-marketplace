@@ -20,7 +20,7 @@ class ClientUserController extends Controller
     public function clientOpenProjects(): View
     {
         // call User modal method (openProjects) -> get all client user open projects
-        $projects = $this->user->openProjects()->paginate(1);
+        $projects = $this->user->openProjects()->latest()->paginate(1);
 
         // display/return view
         return view('clientUser.client-open-projects')->with('projects', $projects);
@@ -32,7 +32,7 @@ class ClientUserController extends Controller
     public function clientInProgressProjects(): View
     {
         // call User modal method (inProgressProjects) -> get all client user in progress projects
-        $projects = $this->user->inProgressProjects()->paginate(1);
+        $projects = $this->user->inProgressProjects()->latest()->paginate(1);
 
         // display/return view
         return view('clientUser.client-in-progress-projects')->with('projects', $projects);
@@ -44,7 +44,7 @@ class ClientUserController extends Controller
     public function clientCompletedProjects(): View
     {
         // call User modal method (completedProjects) -> get all client user completed projects
-        $projects = $this->user->completedProjects()->paginate(1);
+        $projects = $this->user->completedProjects()->latest()->paginate(1);
 
         // display/return view
         return view('clientUser.client-completed-projects')->with('projects', $projects);
@@ -56,7 +56,7 @@ class ClientUserController extends Controller
     public function clientCancelledProjects(): View
     {
         // call User modal method (cancelledProjects) -> get all client cancelledProjects projects
-        $projects = $this->user->cancelledProjects()->paginate(1);
+        $projects = $this->user->cancelledProjects()->latest()->paginate(1);
 
         // display/return view
         return view('clientUser.client-cancelled-projects')->with('projects', $projects);

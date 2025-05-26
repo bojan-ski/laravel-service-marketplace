@@ -54,6 +54,11 @@
                         {{ __('Bided projects') }}
                     </x-navlist.item>
 
+                    <x-navlist.item :href="route('freelancer.won.projects')"
+                        :current="request()->routeIs('freelancer.won.projects')">
+                        {{ __('Won projects') }}
+                    </x-navlist.item>
+
                 @endif
             
             </x-navlist.group>

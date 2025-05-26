@@ -1,7 +1,6 @@
 @props([
 'name',
 'label' => null,
-'type' => 'text',
 'value' => '',
 'options' => [],
 'required' => false,
@@ -19,6 +18,7 @@
     <select name="{{ $name }}" id="{{ $name }}" @if ($required) required @endif 
         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         @if ($xModel) x-model="{{ $xModel }}" @endif
+        {{ $attributes }}
         >
         @if ($disabledOptionLabel)
             <option value="">
