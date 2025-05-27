@@ -34,6 +34,12 @@
         @endif
     @endif
 
+    {{-- If not open project --}}
+    @if($project->status !== 'open' && Auth::id() == $project->user_id)
+        {{-- Client user - see accepted bid & freelancer data --}}
+        <x-projectData.client.accepted-bid-information :acceptedBidData="$acceptedBidData" :freelancerData="$freelancerData" />
+    @endif
+
     {{-- Submitted bids --}}
     <section class="submitted-bids border-t pt-5">
         @if ($submittedBids->isNotEmpty())

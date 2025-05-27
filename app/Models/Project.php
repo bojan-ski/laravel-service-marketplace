@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
@@ -48,5 +49,11 @@ class Project extends Model
     public function bids(): HasMany
     {
         return $this->hasMany(Bid::class);
+    }    
+
+    // get the won/accepted bid - relation to the bid table
+    public function acceptedBid(): HasOne
+    {
+        return $this->hasOne(Bid::class)->where('status', 'accepted');
     }
 }

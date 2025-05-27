@@ -65,8 +65,16 @@ class ProjectController extends Controller
         // get all submitted bids related to the selected project
         $submittedBids = $project->bids;
 
+        // get the accepted bid & freelancer related to the selected project
+        $acceptedBidData = $project->acceptedBid;
+        $freelancerData = $acceptedBidData->freelancer;
+
         // display/return view
-        return view('projects.show')->with('project', $project)->with('submittedBids', $submittedBids);
+        return view('projects.show')
+            ->with('project', $project)
+            ->with('acceptedBidData', $acceptedBidData)
+            ->with('freelancerData', $freelancerData)
+            ->with('submittedBids', $submittedBids);
     }
 
     /**
