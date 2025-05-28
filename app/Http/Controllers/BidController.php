@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use App\Models\Bid;
 use App\Models\Project;
 
@@ -14,6 +15,11 @@ class BidController extends Controller
      */
     public function store(Request $request, Project $project)
     {
+        // check if deadline reached
+        $deadline = Carbon::parse($project->deadline);
+        $currDate = Carbon::now();
+        if ($currDate->isAfter($deadline)) return back()->with('error', 'Deadline reached');
+
         // check if bid exists
         $existingBid = $project->bids()->where('freelancer_id', Auth::id())->first();
         if ($existingBid) return back()->with('error', 'You have already submitted a bid');

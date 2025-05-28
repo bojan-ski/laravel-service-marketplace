@@ -1,6 +1,6 @@
 @props(['project'])
 
-<section x-data="{ open: false }" class="mb-5">
+<section id="bid-option" x-data="{ open: false }" class="mb-5">
     {{-- Open/Close Modal --}}
     <button @click="open = true"
         class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded cursor-pointer transition">

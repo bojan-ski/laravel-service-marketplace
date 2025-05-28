@@ -67,7 +67,7 @@ class ProjectController extends Controller
 
         // get the accepted bid & freelancer related to the selected project
         $acceptedBidData = $project->acceptedBid;
-        $freelancerData = $acceptedBidData->freelancer;
+        $freelancerData = $acceptedBidData ? $acceptedBidData->freelancer : '';
 
         // display/return view
         return view('projects.show')

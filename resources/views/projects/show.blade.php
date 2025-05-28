@@ -18,7 +18,7 @@
         <x-projectData.deadline :project="$project" />
     </section>
 
-    {{-- If document, download document option --}}
+    {{-- If document available, download document option --}}
     @if($project->document_path)
         <x-projectData.download-document :project="$project" />
     @endif
@@ -37,16 +37,23 @@
     {{-- If not open project --}}
     @if($project->status !== 'open' && Auth::id() == $project->user_id)
         {{-- Client user - see accepted bid & freelancer data --}}
-        <x-projectData.client.accepted-bid-information :acceptedBidData="$acceptedBidData" :freelancerData="$freelancerData" />
+        <x-projectData.client.accepted-bid-information :acceptedBidData="$acceptedBidData"
+        :freelancerData="$freelancerData" />
     @endif
 
-    {{-- Submitted bids --}}
+    {{-- Submitted bids & Countdown timer --}}
     <section class="submitted-bids border-t pt-5">
+        {{-- countdown timer --}}
+        @if($project->status == 'open')
+            <x-projectData.countdown-timer :project="$project" />
+        @endif
+
+        {{-- submitted bids --}}
         @if ($submittedBids->isNotEmpty())
             <h3 class="text-3xl text-center font-semibold mb-5">
                 Received bids from freelancers
             </h3>
-        @endif        
+        @endif
 
         <div
             class="submitted-bids-list {{ $submittedBids->isNotEmpty() ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7' : '' }} mb-5">

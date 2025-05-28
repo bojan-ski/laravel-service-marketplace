@@ -157,6 +157,9 @@
 
     {{ $slot }}
 
+    {{-- CUSTOM JS --}}
+    <script src="{{ asset('/js/countdownTimer.js') }}"></script>  
+
 </body>
 
 </html>
