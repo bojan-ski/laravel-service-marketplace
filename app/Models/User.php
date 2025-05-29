@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -94,5 +93,17 @@ class User extends Authenticatable
     public function submittedBids(): HasMany
     {
         return $this->hasMany(Bid::class, 'freelancer_id');
+    }
+
+    // get client user conversations - relation to the conversations table
+    public function clientConversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, 'client_id');
+    }
+
+    // get freelancer user conversations - relation to the conversations table
+    public function freelancerConversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, 'freelancer_id');
     }
 }

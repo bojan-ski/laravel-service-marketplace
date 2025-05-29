@@ -49,11 +49,21 @@ class Project extends Model
     public function bids(): HasMany
     {
         return $this->hasMany(Bid::class);
-    }    
+    }
 
     // get the won/accepted bid - relation to the bid table
     public function acceptedBid(): HasOne
     {
         return $this->hasOne(Bid::class)->where('status', 'accepted');
+    }
+
+    // get the conversation - relation to the conversations table
+    public function conversation(): HasOne
+    {
+        return $this->hasOne(Conversation::class)
+            ->whereColumn('client_id', 'projects.user_id')
+            ->whereHas('freelancer', function ($q) {
+                $q->whereColumn('freelancer.id', 'projects.accepted.freelancer_id');
+            });
     }
 }
