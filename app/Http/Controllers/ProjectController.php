@@ -13,7 +13,7 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         // get all open projects
         $openProjects = Project::latest()->where('status', 'open')->paginate(12);

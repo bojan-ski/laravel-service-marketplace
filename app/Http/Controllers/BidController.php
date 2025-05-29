@@ -37,7 +37,7 @@ class BidController extends Controller
         $formData['budget_type'] = $project->budget_type;
 
         try {
-            // create new project
+            // create new bid
             Bid::create($formData);
 
             // redirect user - with success msg
