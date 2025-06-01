@@ -27,3 +27,4 @@ require __DIR__.'/projects.php';
 require __DIR__.'/bids.php';
 require __DIR__.'/client.php';
 require __DIR__.'/freelancer.php';
+require __DIR__.'/conversations.php';

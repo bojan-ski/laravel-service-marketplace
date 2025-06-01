@@ -1,4 +1,5 @@
 @props([
+'project',
 'acceptedBidData',
 'freelancerData'
 ])
@@ -71,15 +72,10 @@
 
             {{-- message btn --}}
             <div class="mb-3">
-                <a href="/"
+                <a href="{{ route('conversations.thread', [$project, $freelancerData->id]) }}"
                     class="block w-max bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded cursor-pointer transition">
                     Message
                 </a>
-
-                {{-- <a href="{{ route('conversations.thread', [$listing, $carListingOwner->id]) }}"
-                    class="block w-max mt-2 text-sm bg-red-600 hover:bg-red-700 transition duration-150 text-white px-3 py-1.5 rounded-md font-semibold cursor-pointer">
-                    Send message
-                </a> --}}
             </div>
         </div>
     </div>

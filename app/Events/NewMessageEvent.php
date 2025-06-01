@@ -2,32 +2,24 @@
 
 namespace App\Events;
 
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Message;
 
-class NewMessageEvent
+class NewMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct(public Message $message, public string $chatHash, public int $senderId, public string $senderName)
-    {
-        $this->message = $message;
-        $this->chatHash = $chatHash;
-        $this->senderId = $senderId;
-        $this->senderName = $senderName;
-    }
+    public function __construct(
+        public Message $message,
+        public string $chatHash,
+        public int $senderId,
+        public string $senderName
+    ) {}
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
     public function broadcastOn(): array
     {
         return [
@@ -35,13 +27,11 @@ class NewMessageEvent
         ];
     }
 
-    // event broadcast name.
     public function broadcastAs(): string
     {
         return 'message.sent';
     }
 
-    // get the data to broadcast.
     public function broadcastWith(): array
     {
         return [
