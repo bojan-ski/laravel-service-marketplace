@@ -58,7 +58,7 @@ class ConversationController extends Controller
 
         // get all message related to the conversation
         // $messages = $conversation->messages()->with('sender')->get();
-        $messages = $conversation->messages()->with('sender:id,name')->latest()->get();
+        $messages = $conversation->messages()->with('sender:id,name')->orderBy('created_at', 'asc')->get();
 
         // Fetch the associated project for context
         $project = $conversation->project;

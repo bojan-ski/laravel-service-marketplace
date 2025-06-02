@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Events\NewMessageEvent;
+use App\Events\MessageDeletedEvent;
 use App\Models\Conversation;
 use App\Models\Message;
 
@@ -16,7 +17,7 @@ class MessageController extends Controller
      * Store a newly created resource in storage - new message
      */
     public function store(Request $request, Conversation $conversation): JsonResponse|RedirectResponse
-    {
+    {       
         // validate form data
         $request->validate([
             'message' => 'required|string|max:100',
@@ -30,7 +31,7 @@ class MessageController extends Controller
                 'message' => $request->message,
             ]);
 
-            // dispatch the event to broadcast the message
+            // dispatch the event
             event(new NewMessageEvent(
                 $message,
                 $conversation->chat_hash,
@@ -41,7 +42,7 @@ class MessageController extends Controller
             // redirect user - with success msg
             // return back()->with('success', 'Message send.');
 
-             // return a success JSON response
+            // return a success JSON response
             return response()->json([
                 'success' => true,
                 'message' => 'Message sent successfully.',
@@ -59,6 +60,49 @@ class MessageController extends Controller
             // return back()->with('error', 'There was an error submitting your message!');
 
             return response()->json(['error' => 'Failed to send message.'], 500);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Message $message): JsonResponse|RedirectResponse
+    {
+        // authorization check
+        if ($message->sender_id !== Auth::id()) return back('error', 'You are not authorized to delete this message');
+
+        try {
+            // get conversation
+            $conversation = $message->conversation;
+
+            // delete message
+            $message->delete();            
+
+            // dispatch the event
+            event(new MessageDeletedEvent(
+                $message->id,
+                $conversation->chat_hash,
+                Auth::id(),
+                Auth::user()->name
+            ));
+
+            // redirect user - with success msg
+            // return back()->with('success', 'Message deleted');
+
+            // return a success JSON response
+            return response()->json([
+                'success' => true,
+                'message' => 'Message deleted successfully.',
+                'message_id' => $message->id
+            ]);
+        } catch (\Exception $e) {
+            // redirect user - with error msg
+            // return back()->with('error', 'There was an error deleting your message!');
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete message.'
+            ], 500);
         }
     }
 }

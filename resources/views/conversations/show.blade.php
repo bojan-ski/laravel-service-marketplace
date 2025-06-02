@@ -7,27 +7,32 @@
         {{-- messages --}}
         <section id="messages-container" class="messages-list space-y-3 overflow-y-auto max-h-[60vh] pr-2">
             @foreach ($messages as $message)
-            <div class="flex {{ $message->sender_id === Auth::id() ? 'justify-end' : 'justify-start' }}"
-                data-message-id="{{ $message->id }}">
-                <div
-                    class="max-w-sm px-4 py-2 rounded-lg shadow-sm bg-white text-gray-800 border border-gray-200 rounded-bl-none">
-                    <div class="flex items-center mb-2">
-                        {{-- when message was send (time) --}}
-                        <p class="text-xs mr-2">
-                            {{ $message->created_at->diffForHumans() }}
+                <div class="flex {{ $message->sender_id === Auth::id() ? 'justify-end' : 'justify-start' }}"
+                    data-message-id="{{ $message->id }}">
+                    <div
+                        class="max-w-sm px-4 py-2 rounded-lg shadow-sm bg-white text-gray-800 border border-gray-200 rounded-bl-none">
+                        {{-- delete message --}}
+                        @if($message->sender_id == Auth::id())
+                            <x-conversations.delete-message :message="$message"/>
+                        @endif
+
+                        <div class="flex items-center mb-2">
+                            {{-- when message was send (time) --}}
+                            <p class="text-xs mr-2">
+                                {{ $message->created_at->diffForHumans() }}
+                            </p>
+                        </div>
+
+                        {{-- message - content --}}
+                        <p class="text-sm mb-2">
+                            {{ $message->message }}
                         </p>
                     </div>
-
-                    {{-- message - content --}}
-                    <p class="text-sm mb-2">
-                        {{ $message->message }}
-                    </p>
                 </div>
-            </div>
             @endforeach
         </section>
 
-        {{-- message input form --}}
+        {{-- new message form --}}
         <section class="send-message-form">
             <form id="message-form" method="POST" action="{{ route('messages.store', $conversation) }}"
                 class="mt-5 pt-5 border-t border-yellow-500">
@@ -48,6 +53,7 @@
         </section>
 
     </div>
+    
 
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
@@ -67,7 +73,7 @@
         // CHANNEL
         const channel = pusher.subscribe('private-chat.{{ $conversation->chat_hash }}');             
 
-        // bind channel
+         // listen for new messages
         channel.bind('message.sent', data => {
             if (data.sender_id !== {{ Auth::id() }}) {
                 addMessage(data, false);
@@ -89,15 +95,18 @@
             // get form & submit form data
             const formData = new FormData(form);
             formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+            
             fetch(form.action, { method: 'POST', body: formData })
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {
                         addMessage(data.data, true);
                         container.scrollTop = container.scrollHeight;
+                    }else{
+                        alert('Failed to send message');
                     }
                 })
-                .catch(() => alert('Failed to send message'))
+                .catch(() => alert('There was an error sending the message'))
                 .finally(()=> {
                     input.value = '';
                     submitBtn.disabled = false;
@@ -109,10 +118,22 @@
             // create main div
             const div = document.createElement('div');
             div.className = `flex ${isSender ? 'justify-end' : 'justify-start'}`;
+            div.setAttribute('data-message-id', data.id);
             
             // create message div
             const messageDiv = document.createElement('div');
             messageDiv.className = `max-w-sm px-4 py-2 rounded-lg shadow-sm ${isSender ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 border border-gray-200'}`;
+            
+            // create delete button for message sender
+            if (isSender) {                
+                const deleteBtn = document.createElement('button');
+
+                deleteBtn.onclick = () => deleteMessage(data.id);
+                deleteBtn.className = 'text-red-500 hover:text-red-600';
+                deleteBtn.innerHTML = 'X';
+                deleteBtn.title = 'Delete message';
+                messageDiv.appendChild(deleteBtn);
+            }
             
             // create time div
             const timeDiv = document.createElement('div');
@@ -135,6 +156,66 @@
             div.appendChild(messageDiv);
             container.appendChild(div);
         };
+  
+        // listen for deleted messages
+        channel.bind('message.deleted', data => {
+            if (data.deleter_id !== {{ Auth::id() }}) {
+                removeMessage(data.message_id);
+            }
+        });
+        
+        // set variable
+        let selectedMessageId = null;
+        
+        // open modal
+        function deleteMessage(messageId) {
+            selectedMessageId = messageId;
+
+            document.getElementById('deleteModal').classList.remove('hidden');
+            document.getElementById('deleteModal').classList.add('flex');
+        }
+
+        // close modal
+        function closeDeleteModal() {
+            selectedMessageId = null;
+
+            document.getElementById('deleteModal').classList.add('hidden');
+            document.getElementById('deleteModal').classList.remove('flex');
+        }
+
+        // delete message
+        function confirmDelete() {     
+            fetch(`/conversations/messages/${selectedMessageId}/destroy`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(r => r.json())
+            .then(data => {                
+                if (data.success) {
+                    removeMessage(selectedMessageId);
+                    closeDeleteModal();
+                }else{
+                    alert('Failed to delete message');
+                }
+            })
+            .catch(() => alert('There was an error deleting the message'))
+        };
+        
+        // delete message - FE
+        function removeMessage(selectedMessageId) {         
+            const messageElement = document.querySelector(`[data-message-id="${selectedMessageId}"]`);
+
+            if (messageElement) {
+                messageElement.style.transition = 'opacity 0.3s ease';
+                messageElement.style.opacity = '0';
+                setTimeout(() => {
+                    messageElement.remove();
+                }, 300);
+            }
+        }
     </script>
 
 </x-layouts.app>
