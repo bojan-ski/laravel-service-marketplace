@@ -1,6 +1,6 @@
 @props(['message'])
 
-<button onclick="deleteMessage({{ $message->id }})" class="text-red-500 hover:text-red-600" title="Delete message">
+<button onclick="openDeleteModal({{ $message->id }})" class="text-red-500 hover:text-red-600 cursor-pointer">
     X
 </button>
 

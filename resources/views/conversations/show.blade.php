@@ -4,7 +4,7 @@
     <div
         class="max-w-4xl mx-auto p-4 bg-yellow-50 rounded-lg shadow-md border border-yellow-200 min-h-[70vh] flex flex-col justify-between mb-10">
 
-        {{-- messages --}}
+        {{-- messages - list --}}
         <section id="messages-container" class="messages-list space-y-3 overflow-y-auto max-h-[60vh] pr-2">
             @foreach ($messages as $message)
                 <x-conversations.message-card :message="$message" />
@@ -17,10 +17,22 @@
         </section>
 
     </div>
+
+    {{-- Conversation data --}}
+    <div id="conversation-data"
+        data-csrf-token="{{ csrf_token() }}"
+        data-chat-hash="{{ $conversation->chat_hash }}"
+        data-auth-id="{{ Auth::id() }}"
+        class="hidden">
+    </div>
+
+    {{-- Import conversation/chat feature --}}
+    @vite('resources/js/chat/conversation.js')
     
 
     {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
-    <script>
+    {{-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
         // get page variables
         const container = document.getElementById('messages-container'); 
         const form = document.getElementById('message-form');
@@ -180,6 +192,7 @@
                 }, 300);
             }
         }
-    </script>
+    });
+    </script> --}}
 
 </x-layouts.app>

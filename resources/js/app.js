@@ -1,3 +1,4 @@
+import './echo';
 import 'instant.page'
 import Alpine from 'alpinejs'
 import ajax from '@imacrayon/alpine-ajax'
