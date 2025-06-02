@@ -7,55 +7,19 @@
         {{-- messages --}}
         <section id="messages-container" class="messages-list space-y-3 overflow-y-auto max-h-[60vh] pr-2">
             @foreach ($messages as $message)
-                <div class="flex {{ $message->sender_id === Auth::id() ? 'justify-end' : 'justify-start' }}"
-                    data-message-id="{{ $message->id }}">
-                    <div
-                        class="max-w-sm px-4 py-2 rounded-lg shadow-sm bg-white text-gray-800 border border-gray-200 rounded-bl-none">
-                        {{-- delete message --}}
-                        @if($message->sender_id == Auth::id())
-                            <x-conversations.delete-message :message="$message"/>
-                        @endif
-
-                        <div class="flex items-center mb-2">
-                            {{-- when message was send (time) --}}
-                            <p class="text-xs mr-2">
-                                {{ $message->created_at->diffForHumans() }}
-                            </p>
-                        </div>
-
-                        {{-- message - content --}}
-                        <p class="text-sm mb-2">
-                            {{ $message->message }}
-                        </p>
-                    </div>
-                </div>
+                <x-conversations.message-card :message="$message" />
             @endforeach
         </section>
 
         {{-- new message form --}}
         <section class="send-message-form">
-            <form id="message-form" method="POST" action="{{ route('messages.store', $conversation) }}"
-                class="mt-5 pt-5 border-t border-yellow-500">
-                @csrf
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <x-custom.input-custom name='message' minlength='5' maxlength='100' value="{{ request('message') }}"
-                        placeholder='Type your message...' :required="true" />
-
-                    <div class="flex items-center justify-center">
-                        <button type="submit"
-                            class="w-full mb-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-md font-semibold text-sm transition duration-150 cursor-pointer">
-                            Send
-                        </button>
-                    </div>
-                </div>
-            </form>
+           <x-conversations.send-message-form :conversation="$conversation" />
         </section>
 
     </div>
     
 
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
     <script>
         // get page variables
         const container = document.getElementById('messages-container'); 
