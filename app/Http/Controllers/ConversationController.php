@@ -15,8 +15,10 @@ class ConversationController extends Controller
      */
     public function index(): View
     {
+        // get current user id
         $currUserId = Auth::id();
 
+        // get conversations
         $conversations = Conversation::where('client_id', $currUserId)
             ->orWhere('freelancer_id', $currUserId)
             ->with(['project:id,title', 'client:id,name', 'freelancer:id,name'])
@@ -27,6 +29,7 @@ class ConversationController extends Controller
             $conversation->other_participant = ($conversation->client_id == $currUserId) ? $conversation->freelancer_id : $conversation->client_id;
         });
 
+        // display/return view
         return view('conversations.index')->with('conversations', $conversations);
     }
 
@@ -49,15 +52,9 @@ class ConversationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Conversation $conversation)
+    public function show(Conversation $conversation): View
     {
-        // is authorized
-        if (!(Auth::id() == $conversation->client_id || Auth::id() == $conversation->freelancer_id)) {
-            return redirect()->route('projects.index')->with('error', 'You are not authorized to view this conversation.');
-        }
-
         // get all message related to the conversation
-        // $messages = $conversation->messages()->with('sender')->get();
         $messages = $conversation->messages()->with('sender:id,name')->orderBy('created_at', 'asc')->get();
 
         // Fetch the associated project for context
@@ -68,7 +65,7 @@ class ConversationController extends Controller
             ? $conversation->freelancer
             : $conversation->client;
 
-         // display/return view
+        // display/return view
         return view('conversations.show')
             ->with('conversation', $conversation)
             ->with('messages', $messages)

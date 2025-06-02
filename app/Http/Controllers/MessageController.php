@@ -39,9 +39,6 @@ class MessageController extends Controller
                 Auth::user()->name
             ));
 
-            // redirect user - with success msg
-            // return back()->with('success', 'Message send.');
-
             // return a success JSON response
             return response()->json([
                 'success' => true,
@@ -56,9 +53,6 @@ class MessageController extends Controller
                 ]
             ], 201);
         } catch (\Exception $e) {
-            // redirect user - with error msg
-            // return back()->with('error', 'There was an error submitting your message!');
-
             return response()->json(['error' => 'Failed to send message.'], 500);
         }
     }
@@ -68,9 +62,6 @@ class MessageController extends Controller
      */
     public function destroy(Message $message): JsonResponse|RedirectResponse
     {
-        // authorization check
-        if ($message->sender_id !== Auth::id()) return back('error', 'You are not authorized to delete this message');
-
         try {
             // get conversation
             $conversation = $message->conversation;
@@ -86,9 +77,6 @@ class MessageController extends Controller
                 Auth::user()->name
             ));
 
-            // redirect user - with success msg
-            // return back()->with('success', 'Message deleted');
-
             // return a success JSON response
             return response()->json([
                 'success' => true,
@@ -96,9 +84,6 @@ class MessageController extends Controller
                 'message_id' => $message->id
             ]);
         } catch (\Exception $e) {
-            // redirect user - with error msg
-            // return back()->with('error', 'There was an error deleting your message!');
-
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to delete message.'
