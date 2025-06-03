@@ -114,14 +114,14 @@ class User extends Authenticatable
         return Conversation::where('client_id', $this->id)
             ->orWhere('freelancer_id', $this->id)
             ->withCount(['messages as unread_count' => function ($q) {
-                    $q->where('sender_id', '!=', $this->id)
-                        ->whereNull('read_at');
-                }])
+                $q->where('sender_id', '!=', $this->id)
+                    ->whereNull('read_at');
+            }])
             ->with([
                 'project:id,title,deadline,status',
                 'client:id,name',
                 'freelancer:id,name'
-                ])
+            ])
             ->latest();
     }
 }

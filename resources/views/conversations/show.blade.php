@@ -1,38 +1,63 @@
 <x-layouts.app :title="__('Messages')">
 
-    {{-- Messages container --}}
-    <div
-        class="max-w-4xl mx-auto p-4 bg-yellow-50 rounded-lg shadow-md border border-yellow-200 min-h-[70vh] flex flex-col justify-between mb-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10">
+        {{-- Project data --}}
+        <section>
+            {{-- project title --}}
+            <h2 class="text-2xl font-bold mb-5">
+                {{ $conversation->project->title }}
+            </h2>
 
-        {{-- messages - list --}}
-        <section id="messages-container" class="messages-list space-y-3 overflow-y-auto max-h-[60vh] pr-2">
-            @foreach ($messages as $message)
-                <x-conversations.message-card :message="$message" />
-            @endforeach
+            {{-- client name --}}
+            <x-conversations.conversation-list-card-data label='Client' :information="$conversation->client->name" />
+
+            {{-- freelancer name --}}
+            <x-conversations.conversation-list-card-data label='Freelancer'
+                :information="$conversation->freelancer->name" />
+
+            {{-- project deadline --}}
+            <x-conversations.conversation-list-card-data label='Deadline'
+                :information="\Carbon\Carbon::parse($conversation->project->deadline)->format('d.m.Y')" />
+
+            {{-- project status --}}
+            <x-conversations.conversation-list-card-data label='Status'
+                :information="$conversation->project->status == 'in_progress' ? 'In progress' : ucfirst($conversation->project->status)" />
         </section>
 
-        {{-- new message form --}}
-        <section class="send-message-form">
-           <x-conversations.send-message-form :conversation="$conversation" />
-        </section>
+        {{-- Messages container & form --}}
+        <section
+            class="w-full p-4 rounded-lg shadow-md border min-h-[85vh] flex flex-col justify-between lg:col-span-2">
 
+            {{-- messages container --}}
+            <div id="messages-container" class="space-y-3 overflow-y-auto max-h-[75vh] pr-2">
+                @foreach ($messages as $message)
+                    <x-conversations.message-card :message="$message" />
+                @endforeach
+            </div>
+
+            {{-- new message form --}}
+            <div class="send-message-form">
+                <x-conversations.send-message-form :conversation="$conversation" />
+            </div>
+        </section>
     </div>
 
     {{-- Conversation data --}}
-    <div id="conversation-data"
-        data-csrf-token="{{ csrf_token() }}"
+    <div 
+        id="conversation-data" 
+        data-csrf-token="{{ csrf_token() }}" 
         data-chat-hash="{{ $conversation->chat_hash }}"
-        data-auth-id="{{ Auth::id() }}"
+        data-auth-id="{{ Auth::id() }}" 
         class="hidden">
     </div>
 
     {{-- Import conversation/chat feature --}}
     @vite('resources/js/chat/conversation.js')
-    
+
 
     {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
     {{-- <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
         // get page variables
         const container = document.getElementById('messages-container'); 
         const form = document.getElementById('message-form');

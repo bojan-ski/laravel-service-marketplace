@@ -9,7 +9,7 @@
 
         @if ($conversation->unread_count > 0)
             <span class="text-xs font-semibold bg-blue-500 text-white px-2 py-0.5 rounded-full shadow">
-                New
+                {{ $conversation->unread_count }}
             </span>
         @endif
     </div>
@@ -25,7 +25,7 @@
         :information="\Carbon\Carbon::parse($conversation->project->deadline)->format('d.m.Y')" />
 
     {{-- project status --}}
-    <x-conversations.conversation-list-card-data label='Client'
+    <x-conversations.conversation-list-card-data label='Status'
         :information="$conversation->project->status == 'in_progress' ? 'In progress' : ucfirst($conversation->project->status)" />
 
     {{-- message btn --}}

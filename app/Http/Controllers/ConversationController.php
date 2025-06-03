@@ -54,20 +54,16 @@ class ConversationController extends Controller
         // get all message related to the conversation
         $messages = $conversation->messages()->with('sender:id,name')->orderBy('created_at', 'asc')->get();
 
-        // Fetch the associated project for context
-        $project = $conversation->project;
-
-        // get the other user
-        $otherUserForChat = (Auth::id() === $conversation->client_id)
-            ? $conversation->freelancer
-            : $conversation->client;
+        // mark received messages as read
+        $messages->each(function ($message) {
+            if ($message->sender_id != Auth::id() && is_null($message->read_at)) {
+                $message->markAsRead();
+            }
+        });
 
         // display/return view
         return view('conversations.show')
             ->with('conversation', $conversation)
-            ->with('messages', $messages)
-            ->with('project', $project)
-            ->with('currentUser', Auth::user())
-            ->with('otherUserForChat', $otherUserForChat);
+            ->with('messages', $messages);
     }
 }

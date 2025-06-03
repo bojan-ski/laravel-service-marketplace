@@ -10,7 +10,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'chat_hash',
         'sender_id',
         'message',
@@ -27,5 +27,13 @@ class Message extends Model
     public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    // mark message - update the read_at field
+    public function markAsRead(): void
+    {
+        if (is_null($this->read_at)) {
+            $this->update(['read_at' => now()]);
+        }
     }
 }

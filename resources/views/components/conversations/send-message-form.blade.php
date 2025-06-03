@@ -1,18 +1,15 @@
 @props(['conversation'])
 
-<form id="message-form" method="POST" action="{{ route('messages.store', $conversation) }}"
-    class="mt-5 pt-5 border-t border-yellow-500">
+<form id="message-form" method="POST" action="{{ route('messages.store', $conversation) }}" class="mt-5 pt-5 border-t">
     @csrf
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
         <x-custom.input-custom name='message' minlength='5' maxlength='100' value="{{ request('message') }}"
             placeholder='Type your message...' :required="true" />
 
-        <div class="flex items-center justify-center">
-            <button type="submit"
-                class="w-full mb-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-md font-semibold text-sm transition duration-150 cursor-pointer">
-                Send
-            </button>
-        </div>
+        <button type="submit"
+            class="mb-4 w-full md:w-max bg-blue-500 hover:bg-blue-700 text-white px-8 py-2.5 rounded-md font-semibold transition cursor-pointer">
+            Send
+        </button>
     </div>
 </form>
