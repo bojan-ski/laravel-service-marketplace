@@ -35,7 +35,7 @@
     @endif
 
     {{-- If not open project --}}
-    @if($project->status !== 'open' && Auth::id() == $project->user_id)
+    @if($freelancerData && (Auth::id() == $project->user_id || Auth::id() == $freelancerData->id))
         {{-- Client user - see accepted bid & freelancer data --}}
         <x-projectData.client.accepted-bid-information :project="$project" :acceptedBidData="$acceptedBidData"
         :freelancerData="$freelancerData" />

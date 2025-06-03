@@ -5,7 +5,7 @@
 ])
 
 <section class="won-bid-details border-t pt-5">
-    <h3 class="text-3xl text-center font-semibold mb-5">
+    <h3 class="text-2xl font-semibold mb-5">
         Accepted Bid
     </h3>
 
@@ -14,9 +14,9 @@
         <div class="mb-5 md:mb-0">
             {{-- bid amount --}}
             <div class="mb-3">
-                <h2 class="mb-1">
+                <p class="mb-1">
                     Bid amount:
-                </h2>
+                </p>
 
                 <p class="font-semibold">
                     {{ $acceptedBidData->bid_amount }}
@@ -25,9 +25,9 @@
 
             {{-- estimated days --}}
             <div class="mb-3">
-                <h2 class="mb-1">
+                <p class="mb-1">
                     Estimated days:
-                </h2>
+                </p>
 
                 <p class="font-semibold">
                     {{ $acceptedBidData->estimated_days }}
@@ -36,9 +36,9 @@
 
             {{-- bid message --}}
             <div class="mb-3">
-                <h2 class="mb-1">
+                <p class="mb-1">
                     Message:
-                </h2>
+                </p>
 
                 <p class="font-semibold">
                     {{ $acceptedBidData->bid_message }}
@@ -50,9 +50,9 @@
         <div class="mb-5 md:mb-0">
             {{-- username --}}
             <div class="mb-3">
-                <h2 class="mb-1">
+                <p class="mb-1">
                     Username:
-                </h2>
+                </p>
 
                 <p class="font-semibold">
                     {{ $freelancerData->name }}
@@ -61,9 +61,9 @@
 
             {{-- email --}}
             <div class="mb-3">
-                <h2 class="mb-1">
+                <p class="mb-1">
                     Email:
-                </h2>
+                </p>
 
                 <p class="font-semibold">
                     {{ $freelancerData->email }}
@@ -72,7 +72,7 @@
 
             {{-- message btn --}}
             <div class="mb-3">
-                <a href="{{ route('conversations.thread', [$project, $freelancerData->id]) }}"
+                <a href="{{ route('conversations.thread', $project) }}"
                     class="block w-max bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded cursor-pointer transition">
                     Message
                 </a>

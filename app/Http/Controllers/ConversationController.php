@@ -33,13 +33,13 @@ class ConversationController extends Controller
     /**
      * Start/continue conversation
      */
-    public function thread(Project $project, int $freelancerId): RedirectResponse
+    public function thread(Project $project): RedirectResponse
     {
         // check if existing conversation
         $conversation = Conversation::firstOrCreate([
             'project_id' => $project->id,
-            'client_id' => Auth::id(),
-            'freelancer_id' => $freelancerId,
+            'client_id' => $project->user_id,
+            'freelancer_id' => $project->acceptedBid->freelancer_id,
         ]);
 
         // redirect user
