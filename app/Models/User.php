@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -105,5 +106,22 @@ class User extends Authenticatable
     public function freelancerConversations(): HasMany
     {
         return $this->hasMany(Conversation::class, 'freelancer_id');
+    }
+
+    // get user conversations - relation to the conversations table
+    public function conversations(): Builder
+    {
+        return Conversation::where('client_id', $this->id)
+            ->orWhere('freelancer_id', $this->id)
+            ->withCount(['messages as unread_count' => function ($q) {
+                    $q->where('sender_id', '!=', $this->id)
+                        ->whereNull('read_at');
+                }])
+            ->with([
+                'project:id,title,deadline,status',
+                'client:id,name',
+                'freelancer:id,name'
+                ])
+            ->latest();
     }
 }

@@ -60,10 +60,12 @@ class Project extends Model
     // get the conversation - relation to the conversations table
     public function conversation(): HasOne
     {
+        $acceptedFreelancerId = optional($this->acceptedBid)->freelancer_id;
+
         return $this->hasOne(Conversation::class)
-            ->whereColumn('client_id', 'projects.user_id')
-            ->whereHas('freelancer', function ($q) {
-                $q->whereColumn('freelancer.id', 'projects.accepted.freelancer_id');
+            ->where('client_id', $this->user_id)
+            ->when($acceptedFreelancerId !== null, function ($q) use ($acceptedFreelancerId) {
+                $q->where('freelancer_id', $acceptedFreelancerId);
             });
     }
 }

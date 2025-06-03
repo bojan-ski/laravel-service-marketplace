@@ -8,9 +8,10 @@ use App\Http\Middleware\IsConversationParticipantMiddleware;
 use App\Http\Middleware\IsMessageOwnerMiddleware;
 
 Route::middleware('auth')->group(function () {
-    Route::middleware(IsConversationParticipantMiddleware::class)->group(function () {
-        Route::prefix('conversations')->group(function () {
-            Route::get('/', [ConversationController::class, 'index'])->name('conversations.index');
+    Route::prefix('conversations')->group(function () {
+        Route::get('/', [ConversationController::class, 'index'])->name('conversations.index');
+        
+        Route::middleware(IsConversationParticipantMiddleware::class)->group(function () {
             Route::get('/{conversation}', [ConversationController::class, 'show'])->name('conversations.show');
             Route::post('/{conversation}/store', [MessageController::class, 'store'])->name('messages.store');
 

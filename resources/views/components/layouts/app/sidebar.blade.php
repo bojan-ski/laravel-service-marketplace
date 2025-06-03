@@ -58,8 +58,11 @@
                         :current="request()->routeIs('freelancer.won.projects')">
                         {{ __('Won projects') }}
                     </x-navlist.item>
-
                 @endif
+
+                <x-navlist.item :href="route('conversations.index')" :current="request()->routeIs('conversations.index')">
+                    {{ __('Conversations') }}
+                </x-navlist.item>
             
             </x-navlist.group>
         </x-navlist>

@@ -15,19 +15,16 @@ class ConversationController extends Controller
      */
     public function index(): View
     {
-        // get current user id
-        $currUserId = Auth::id();
+        // $currUserId = Auth::id();
 
-        // get conversations
-        $conversations = Conversation::where('client_id', $currUserId)
-            ->orWhere('freelancer_id', $currUserId)
-            ->with(['project:id,title', 'client:id,name', 'freelancer:id,name'])
-            ->latest()
-            ->paginate(1);
+        // $conversations = Conversation::where('client_id', $currUserId)
+        //     ->orWhere('freelancer_id', $currUserId)
+        //     ->with(['project:id,title,deadline,status', 'client:id,name', 'freelancer:id,name'])
+        //     ->latest()
+        //     ->paginate(1);
 
-        $conversations->each(function ($conversation) use ($currUserId) {
-            $conversation->other_participant = ($conversation->client_id == $currUserId) ? $conversation->freelancer_id : $conversation->client_id;
-        });
+        // get user conversations
+        $conversations = Auth::user()->conversations()->paginate(1);
 
         // display/return view
         return view('conversations.index')->with('conversations', $conversations);
