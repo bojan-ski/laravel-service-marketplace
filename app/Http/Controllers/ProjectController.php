@@ -131,4 +131,22 @@ class ProjectController extends Controller
             return back()->with('error', 'There was an error deleting the project');
         }
     }
+    
+    /**
+     * Move project status to completed or cancelled
+     */
+    public function statusChange(Project $project, string $status): RedirectResponse
+    {
+        try {
+            // change project status
+            $project->update(['status' => $status]);
+            $flashMsgColor = $status == 'completed' ? 'success' : 'error';
+
+            // redirect user - with error msg
+            return back()->with($flashMsgColor, 'Project status: ' . strtoupper($status));
+        } catch (\Exception $e) {
+            // redirect user - with error msg
+            return back()->with('error', 'There was an error changing the status of the project');
+        }
+    }
 }

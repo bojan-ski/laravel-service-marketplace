@@ -34,9 +34,13 @@
         @endif
     @endif
 
-    {{-- If not open project --}}
+    {{-- If not open project - change project status (completed or canceled) --}}
+    @if($project->status !== 'open' && Auth::id() == $project->user_id)
+        <x-projectData.client.manage-project-status :project="$project" />
+    @endif
+
+    {{-- If bid accepted - display accepted bid & freelancer data --}}
     @if($freelancerData && (Auth::id() == $project->user_id || Auth::id() == $freelancerData->id))
-        {{-- Client user - see accepted bid & freelancer data --}}
         <x-projectData.client.accepted-bid-information :project="$project" :acceptedBidData="$acceptedBidData"
         :freelancerData="$freelancerData" />
     @endif
@@ -56,13 +60,12 @@
         @endif
 
         <div
-            class="submitted-bids-list {{ $submittedBids->isNotEmpty() ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7' : '' }} mb-5">
-            @forelse ($submittedBids as $bid)
+            class="submitted-bids-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 mb-5">
+            @foreach ($submittedBids as $bid)
                 <x-projectData.submitted-bid-card :project="$project" :bid="$bid" />
-            @empty
-                <x-custom.no-data-message message='You have not received any bids for this project!' />
-            @endforelse
+            @endforeach
         </div>
     </section>
 
 </x-layouts.app>
+
