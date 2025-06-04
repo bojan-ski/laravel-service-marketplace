@@ -117,11 +117,6 @@ class User extends Authenticatable
                 $q->where('sender_id', '!=', $this->id)
                     ->whereNull('read_at');
             }])
-            ->with([
-                'project:id,title,deadline,status',
-                'client:id,name',
-                'freelancer:id,name'
-            ])
             ->latest();
     }
 }

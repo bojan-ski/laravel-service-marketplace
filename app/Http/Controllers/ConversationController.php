@@ -15,16 +15,18 @@ class ConversationController extends Controller
      */
     public function index(): View
     {
-        // $currUserId = Auth::id();
-
-        // $conversations = Conversation::where('client_id', $currUserId)
-        //     ->orWhere('freelancer_id', $currUserId)
-        //     ->with(['project:id,title,deadline,status', 'client:id,name', 'freelancer:id,name'])
-        //     ->latest()
-        //     ->paginate(1);
-
         // get user conversations
-        $conversations = Auth::user()->conversations()->paginate(1);
+        $currUserId = Auth::id();
+
+        $conversations = Conversation::where('client_id', $currUserId)
+            ->orWhere('freelancer_id', $currUserId)
+            ->withCount(['messages as unread_count' => function ($q) use ($currUserId) {
+                $q->where('sender_id', '!=', $currUserId)
+                    ->whereNull('read_at');
+            }])
+            ->with(['project:id,title,deadline,status', 'client:id,name', 'freelancer:id,name'])
+            ->latest()
+            ->paginate(12);
 
         // display/return view
         return view('conversations.index')->with('conversations', $conversations);
@@ -52,7 +54,7 @@ class ConversationController extends Controller
     public function show(Conversation $conversation): View
     {
         // get all message related to the conversation
-        $messages = $conversation->messages()->with('sender:id,name')->orderBy('created_at', 'asc')->get();
+        $messages = $conversation->messages()->orderBy('created_at', 'asc')->get();
 
         // mark received messages as read
         $messages->each(function ($message) {

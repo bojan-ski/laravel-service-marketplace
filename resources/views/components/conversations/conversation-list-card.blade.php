@@ -30,7 +30,7 @@
 
     {{-- message btn --}}
     <div>
-        <a href="{{ route('conversations.thread', $conversation->project) }}"
+        <a href="{{ route('conversations.thread', $conversation->project->id) }}"
             class="block text-center bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded cursor-pointer transition">
             Message
         </a>
