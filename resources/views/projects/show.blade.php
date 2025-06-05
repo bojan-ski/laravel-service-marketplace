@@ -34,14 +34,20 @@
         @endif
     @endif
 
-    {{-- If not open project - change project status (completed or canceled) --}}
+    {{-- If not open project --}}
     @if($project->status !== 'open' && Auth::id() == $project->user_id)
+    {{-- Client user - change project status (completed or canceled) --}}
         <x-projectData.client.manage-project-status :project="$project" />
     @endif
+    
+    {{-- If project status completed or canceled - rating options --}}
+    @if(($project->status == 'completed' || $project->status == 'cancelled') && (Auth::id() == $project->user_id || Auth::id() == $freelancerData->id))    
+        <x-projectData.rating-option :project="$project" :freelancerData="$freelancerData" />    
+    @endif  
 
     {{-- If bid accepted - display accepted bid & freelancer data --}}
     @if($freelancerData && (Auth::id() == $project->user_id || Auth::id() == $freelancerData->id))
-        <x-projectData.client.accepted-bid-information :project="$project" :acceptedBidData="$acceptedBidData"
+        <x-projectData.accepted-bid-information :project="$project" :acceptedBidData="$acceptedBidData"
         :freelancerData="$freelancerData" />
     @endif
 
@@ -60,7 +66,7 @@
         @endif
 
         <div
-            class="submitted-bids-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 mb-5">
+            class="submitted-bids-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-5">
             @foreach ($submittedBids as $bid)
                 <x-projectData.submitted-bid-card :project="$project" :bid="$bid" />
             @endforeach

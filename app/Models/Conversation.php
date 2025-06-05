@@ -29,7 +29,7 @@ class Conversation extends Model
         });
     }
 
-    // get the projects - relation to the projects table   
+    // get the project - relation to the projects table   
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

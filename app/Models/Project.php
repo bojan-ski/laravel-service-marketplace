@@ -68,4 +68,10 @@ class Project extends Model
                 $q->where('freelancer_id', $acceptedFreelancerId);
             });
     }
+
+    // get the rating - relation to the ratings table
+    public function rating(): HasOne
+    {
+        return $this->hasOne(Rating::class);
+    }
 }

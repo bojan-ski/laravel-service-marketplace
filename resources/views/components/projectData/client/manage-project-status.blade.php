@@ -1,6 +1,6 @@
 @props(['project'])
 
-<div class="flex items-center space-x-3 mb-5">
+<div class="flex items-center space-x-2 mb-5">
     {{-- change project status to completed --}}
     <x-projectData.client.manage-project-status-form :project="$project" newStatus='completed' />
 
