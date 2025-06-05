@@ -3,6 +3,13 @@
     {{-- Title & Status --}}
     <x-projectData.title-status :project="$project" />
 
+    {{-- Client ratings --}}
+    <x-projectData.client-rating 
+        :project="$project" 
+        :averageClientRate="$averageClientRate" 
+        :numberOfReceivedRatings="$numberOfReceivedRatings" 
+    />
+
     {{-- Description --}}
     <x-projectData.description :project="$project" />
 

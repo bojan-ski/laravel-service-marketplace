@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\OpenProjectRequest;
 use App\Models\Project;
+use App\Models\Rating;
 
 class ProjectController extends Controller
 {
@@ -65,6 +66,10 @@ class ProjectController extends Controller
         // get all submitted bids related to the selected project
         $submittedBids = $project->bids;
 
+        // get client received ratings
+        $averageClientRate = Rating::where('client_id', $project->user_id)->avg('client_received_rate');
+        $numberOfReceivedRatings = Rating::where('client_id', $project->user_id)->count();
+
         // get the accepted bid & freelancer related to the selected project
         $acceptedBidData = $project->acceptedBid;
         $freelancerData = $acceptedBidData ? $acceptedBidData->freelancer : '';
@@ -72,6 +77,8 @@ class ProjectController extends Controller
         // display/return view
         return view('projects.show')
             ->with('project', $project)
+            ->with('averageClientRate', $averageClientRate)
+            ->with('numberOfReceivedRatings', $numberOfReceivedRatings)            
             ->with('acceptedBidData', $acceptedBidData)
             ->with('freelancerData', $freelancerData)
             ->with('submittedBids', $submittedBids);
