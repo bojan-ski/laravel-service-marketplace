@@ -63,8 +63,12 @@ class ProjectController extends Controller
      */
     public function show(Project $project): View
     {
-        // get all submitted bids related to the selected project
-        $submittedBids = $project->bids;
+        // get all submitted bids and freelancer received ratings, related to the selected project
+        $submittedBids = $project->bids()->with('freelancer')->get();
+        $submittedBids->each(function ($bid) {            
+            $bid->freelancer_avg_received_rate = Rating::where('freelancer_id', $bid->freelancer_id)->avg('freelancer_received_rate');
+            $bid->freelancer_num_received_ratings = Rating::where('freelancer_id', $bid->freelancer_id)->count('freelancer_received_rate');
+        });
 
         // get client received ratings
         $averageClientRate = Rating::where('client_id', $project->user_id)->avg('client_received_rate');
@@ -75,7 +79,6 @@ class ProjectController extends Controller
         $freelancerData = $acceptedBidData ? $acceptedBidData->freelancer : '';
         $averageFreelancerRate = $acceptedBidData ? Rating::where('freelancer_id', $acceptedBidData->freelancer->id)->avg('freelancer_received_rate') : '';
         $numberOfReceivedRatings = $acceptedBidData ? Rating::where('freelancer_id', $acceptedBidData->freelancer->id)->count('freelancer_received_rate') : '';
-
 
         // display/return view
         return view('projects.show')

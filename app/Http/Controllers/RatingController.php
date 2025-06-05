@@ -27,7 +27,7 @@ class RatingController extends Controller
         ]);
 
         // get user and apply rate
-        $user = Auth::id() == $selectedRatings->client_id ? 'client_received_rate' : 'freelancer_received_rate';
+        $user = Auth::id() == $selectedRatings->client_id ? 'freelancer_received_rate' : 'client_received_rate';
         $userRate = [
             $user => $formData['rating']
         ];     
