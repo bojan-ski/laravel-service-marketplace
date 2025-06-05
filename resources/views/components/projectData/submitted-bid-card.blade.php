@@ -20,37 +20,13 @@
         </div>
 
         {{-- Bid amount --}}
-        <div class="mb-3 pb-2 border-b">
-            <h4 class="mb-1">
-                Bid amount:
-            </h4>
-
-            <p class="font-semibold">
-                {{ $bid->bid_amount }}
-            </p>
-        </div>
+        <x-projectData.submitted-bid-card-data label='Bid amount' :data="$bid->bid_amount" />
 
         {{-- Estimated days --}}
-        <div class="mb-3 pb-2 border-b">
-            <h4 class="mb-1">
-                Estimated days:
-            </h4>
-
-            <p class="font-semibold">
-                {{ $bid->estimated_days }}
-            </p>
-        </div>
+        <x-projectData.submitted-bid-card-data label='Estimated days' :data="$bid->estimated_days" />
 
         {{-- Bid message --}}
-        <div class="mb-3 pb-2 border-b">
-            <h4 class="mb-1">
-                Message:
-            </h4>
-
-            <p class="font-semibold">
-                {{ $bid->bid_message }}
-            </p>
-        </div>
+        <x-projectData.submitted-bid-card-data label='Message' :data="$bid->bid_message" />
 
         {{-- Bid message --}}
         <div>
