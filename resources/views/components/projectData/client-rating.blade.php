@@ -1,7 +1,7 @@
 @props([
 'project',
 'averageClientRate',
-'numberOfReceivedRatings'
+'clientNumberOfReceivedRatings'
 ])
 
 <section class="mb-5">
@@ -10,7 +10,7 @@
             {{ $project->client->name }} - average rating:
         </span>
         <span class="font-bold">
-            {{ round($averageClientRate) }} ({{ $numberOfReceivedRatings }})
+            {{ round($averageClientRate) }} ({{ $clientNumberOfReceivedRatings }})
         </span>
     </p>
 </section>

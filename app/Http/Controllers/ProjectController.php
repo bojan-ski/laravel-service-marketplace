@@ -68,19 +68,24 @@ class ProjectController extends Controller
 
         // get client received ratings
         $averageClientRate = Rating::where('client_id', $project->user_id)->avg('client_received_rate');
-        $numberOfReceivedRatings = Rating::where('client_id', $project->user_id)->count();
+        $clientNumberOfReceivedRatings = Rating::where('client_id', $project->user_id)->count('client_received_rate');
 
-        // get the accepted bid & freelancer related to the selected project
+        // get the accepted bid & freelancer data related to the selected project
         $acceptedBidData = $project->acceptedBid;
         $freelancerData = $acceptedBidData ? $acceptedBidData->freelancer : '';
+        $averageFreelancerRate = $acceptedBidData ? Rating::where('freelancer_id', $acceptedBidData->freelancer->id)->avg('freelancer_received_rate') : '';
+        $numberOfReceivedRatings = $acceptedBidData ? Rating::where('freelancer_id', $acceptedBidData->freelancer->id)->count('freelancer_received_rate') : '';
+
 
         // display/return view
         return view('projects.show')
             ->with('project', $project)
             ->with('averageClientRate', $averageClientRate)
-            ->with('numberOfReceivedRatings', $numberOfReceivedRatings)            
+            ->with('clientNumberOfReceivedRatings', $clientNumberOfReceivedRatings)            
             ->with('acceptedBidData', $acceptedBidData)
             ->with('freelancerData', $freelancerData)
+            ->with('averageFreelancerRate', $averageFreelancerRate)
+            ->with('numberOfReceivedRatings', $numberOfReceivedRatings)
             ->with('submittedBids', $submittedBids);
     }
 

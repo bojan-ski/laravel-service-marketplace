@@ -7,7 +7,7 @@
     <x-projectData.client-rating 
         :project="$project" 
         :averageClientRate="$averageClientRate" 
-        :numberOfReceivedRatings="$numberOfReceivedRatings" 
+        :clientNumberOfReceivedRatings="$clientNumberOfReceivedRatings" 
     />
 
     {{-- Description --}}
@@ -54,8 +54,13 @@
 
     {{-- If bid accepted - display accepted bid & freelancer data --}}
     @if($freelancerData && (Auth::id() == $project->user_id || Auth::id() == $freelancerData->id))
-        <x-projectData.accepted-bid-information :project="$project" :acceptedBidData="$acceptedBidData"
-        :freelancerData="$freelancerData" />
+        <x-projectData.accepted-bid-information 
+            :project="$project" 
+            :acceptedBidData="$acceptedBidData"
+            :freelancerData="$freelancerData" 
+            :averageFreelancerRate="$averageFreelancerRate"
+            :numberOfReceivedRatings="$numberOfReceivedRatings"
+        />
     @endif
 
     {{-- Submitted bids & Countdown timer --}}
