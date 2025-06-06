@@ -60,12 +60,12 @@
                     </x-navlist.item>
                 @endif
 
-                <x-navlist.item :href="route('conversations.index')" :current="request()->routeIs('conversations.index')">
-                    {{ __('Conversations') }}
+                <x-navlist.item :href="route('conversations.index')" :current="request()->routeIs('conversations.index')" :badge="true">
+                    {{ __('My conversations') }}
                 </x-navlist.item>
 
                 <x-navlist.item :href="route('ratings.index')" :current="request()->routeIs('ratings.index')">
-                    {{ __('Ratings') }}
+                    {{ __('My ratings') }}
                 </x-navlist.item>
             
             </x-navlist.group>
@@ -165,6 +165,7 @@
     {{ $slot }}
 
     {{-- CUSTOM JS --}}
+    <script src="{{ asset('/js/newMessagesCheck.js') }}"></script>  
     <script src="{{ asset('/js/countdownTimer.js') }}"></script>  
 
 </body>

@@ -17,7 +17,7 @@ class MessageController extends Controller
      * Store a newly created resource in storage - new message
      */
     public function store(Request $request, Conversation $conversation): JsonResponse|RedirectResponse
-    {       
+    {
         // validate form data
         $request->validate([
             'message' => 'required|string|max:100',
@@ -67,7 +67,7 @@ class MessageController extends Controller
             $conversation = $message->conversation;
 
             // delete message
-            $message->delete();            
+            $message->delete();
 
             // dispatch the event
             event(new MessageDeletedEvent(
@@ -89,5 +89,21 @@ class MessageController extends Controller
                 'message' => 'Failed to delete message.'
             ], 500);
         }
+    }
+
+    /**
+     * Check for new messages
+     */
+    public function newMessageCheck(): JsonResponse
+    {
+        $count = Message::whereHas('conversation', function ($query) {
+            $query->where('client_id', Auth::id())
+                ->orWhere('freelancer_id', Auth::id());
+        })
+            ->where('sender_id', '!=', Auth::id())
+            ->whereNull('read_at')
+            ->count();
+
+        return response()->json(['count' => $count]);
     }
 }

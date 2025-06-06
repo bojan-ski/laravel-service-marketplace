@@ -22,4 +22,7 @@ Route::middleware('auth')->group(function () {
             ->middleware(IsMessageOwnerMiddleware::class)
             ->name('messages.destroy');
     });
+
+    Route::get('/check_for_new_messages', [MessageController::class, 'newMessageCheck'])
+        ->name('conversations.newMessageCheck');
 });
