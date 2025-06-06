@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Settings;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,20 +10,11 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
-
-    Route::get('settings/profile', [Settings\ProfileController::class, 'edit'])->name('settings.profile.edit');
-    Route::put('settings/profile', [Settings\ProfileController::class, 'update'])->name('settings.profile.update');
-    Route::delete('settings/profile', [Settings\ProfileController::class, 'destroy'])->name('settings.profile.destroy');
-    Route::get('settings/password', [Settings\PasswordController::class, 'edit'])->name('settings.password.edit');
-    Route::put('settings/password', [Settings\PasswordController::class, 'update'])->name('settings.password.update');
-    Route::get('settings/appearance', [Settings\AppearanceController::class, 'edit'])->name('settings.appearance.edit');
-});
-
-require __DIR__.'/auth.php';
-require __DIR__.'/projects.php';
-require __DIR__.'/bids.php';
-require __DIR__.'/client.php';
-require __DIR__.'/freelancer.php';
-require __DIR__.'/conversations.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/projects.php';
+require __DIR__ . '/bids.php';
+require __DIR__ . '/client.php';
+require __DIR__ . '/freelancer.php';
+require __DIR__ . '/conversations.php';
+require __DIR__ . '/ratings.php';
+require __DIR__ . '/settings.php';

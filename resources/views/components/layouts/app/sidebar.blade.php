@@ -63,6 +63,10 @@
                 <x-navlist.item :href="route('conversations.index')" :current="request()->routeIs('conversations.index')">
                     {{ __('Conversations') }}
                 </x-navlist.item>
+
+                <x-navlist.item :href="route('ratings.index')" :current="request()->routeIs('ratings.index')">
+                    {{ __('Ratings') }}
+                </x-navlist.item>
             
             </x-navlist.group>
         </x-navlist>

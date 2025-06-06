@@ -4,11 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use App\Models\Project;
 use App\Models\Rating;
 
 class RatingController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): View
+    {
+        $currUser = Auth::user();
+
+        // get user received ratings
+        $avgUserRate = $currUser->account_type == 'client' ? Rating::where('client_id', $currUser->id)->avg('client_received_rate') : Rating::where('freelancer_id', $currUser->id)->avg('freelancer_received_rate');
+        $numOfReceivedRatings = $currUser->account_type == 'client' ? Rating::where('client_id', $currUser->id)->count('client_received_rate') : Rating::where('freelancer_id', $currUser->id)->count('freelancer_received_rate');
+
+        // get user ratings
+        $allUserRatings = Rating::where('client_id', $currUser->id)
+            ->orWhere('freelancer_id', $currUser->id)
+            ->with(['project:id,title', 'client:id,name', 'freelancer:id,name'])
+            ->latest()
+            ->paginate(12);
+
+        // display/return view
+        return view('ratings.index')
+            ->with('avgUserRate', $avgUserRate)
+            ->with('numOfReceivedRatings', $numOfReceivedRatings)
+            ->with('allUserRatings', $allUserRatings);
+    }
+
     /**
      * Update/accept the specified resource in storage. 
      */
@@ -30,7 +56,7 @@ class RatingController extends Controller
         $user = Auth::id() == $selectedRatings->client_id ? 'freelancer_received_rate' : 'client_received_rate';
         $userRate = [
             $user => $formData['rating']
-        ];     
+        ];
 
         try {
             // update ratings

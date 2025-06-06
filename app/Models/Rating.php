@@ -23,4 +23,16 @@ class Rating extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    // get ratings related to the client user - relation to the users table   
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'client_id');
+    }
+
+    // get ratings related to the freelancer user - relation to the users table   
+    public function freelancer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'freelancer_id');
+    }
 }

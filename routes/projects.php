@@ -12,9 +12,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/search', [SearchController::class, 'search'])->name('projects.search');
         Route::get('/create', [ProjectController::class, 'create'])->name('projects.create');
         Route::post('/store', [ProjectController::class, 'store'])->name('projects.store');
-
-        Route::put('/{project}/rate', [RatingController::class, 'rateUser'])
-            ->name('ratings.rateUser');
             
         Route::middleware(IsProjectOwnerMiddleware::class)->group(function () {
             Route::get('/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
