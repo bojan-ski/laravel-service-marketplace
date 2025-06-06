@@ -18,56 +18,63 @@
         <x-navlist>
             <x-navlist.group :heading="__('Sidebar')">
 
-                <x-navlist.item :href="route('projects.index')" :current="request()->routeIs('projects.index')">
-                    {{ __('All open projects') }}
-                </x-navlist.item>
-
-                @if (Auth::user()->account_type == 'client')
-                    {{-- Client user nav links --}}
-                    <x-navlist.item :href="route('projects.create')" :current="request()->routeIs('projects.create')">
-                        {{ __('Create project') }}
+                @if (Auth::user()->account_type !== 'admin')
+                    {{-- Client & Freelancer user links --}}
+                    <x-navlist.item :href="route('projects.index')" :current="request()->routeIs('projects.index')">
+                        {{ __('All open projects') }}
                     </x-navlist.item>
 
-                    <x-navlist.item :href="route('client.open.projects')"
-                        :current="request()->routeIs('client.open.projects')">
-                        {{ __('My open projects') }}
-                    </x-navlist.item>
+                    @if (Auth::user()->account_type == 'client')
+                        {{-- Client user nav links --}}
+                        <x-navlist.item :href="route('projects.create')" :current="request()->routeIs('projects.create')">
+                            {{ __('Create project') }}
+                        </x-navlist.item>
 
-                    <x-navlist.item :href="route('client.inProgress.projects')"
-                        :current="request()->routeIs('client.inProgress.projects')">
-                        {{ __('My in progress projects') }}
-                    </x-navlist.item>
+                        <x-navlist.item :href="route('client.open.projects')"
+                            :current="request()->routeIs('client.open.projects')">
+                            {{ __('My open projects') }}
+                        </x-navlist.item>
 
-                    <x-navlist.item :href="route('client.completed.projects')"
-                        :current="request()->routeIs('client.completed.projects')">
-                        {{ __('My completed projects') }}
-                    </x-navlist.item>
+                        <x-navlist.item :href="route('client.inProgress.projects')"
+                            :current="request()->routeIs('client.inProgress.projects')">
+                            {{ __('My in progress projects') }}
+                        </x-navlist.item>
 
-                    <x-navlist.item :href="route('client.cancelled.projects')"
-                        :current="request()->routeIs('client.cancelled.projects')">
-                        {{ __('My cancelled projects') }}
-                    </x-navlist.item>
+                        <x-navlist.item :href="route('client.completed.projects')"
+                            :current="request()->routeIs('client.completed.projects')">
+                            {{ __('My completed projects') }}
+                        </x-navlist.item>
+
+                        <x-navlist.item :href="route('client.cancelled.projects')"
+                            :current="request()->routeIs('client.cancelled.projects')">
+                            {{ __('My cancelled projects') }}
+                        </x-navlist.item>   
+                    @else
+                        {{-- Freelancer user nav links --}}
+                        <x-navlist.item :href="route('freelancer.bids')" :current="request()->routeIs('freelancer.bids')">
+                            {{ __('Bided projects') }}
+                        </x-navlist.item>
+
+                        <x-navlist.item :href="route('freelancer.won.projects')"
+                            :current="request()->routeIs('freelancer.won.projects')">
+                            {{ __('Won projects') }}
+                        </x-navlist.item>
+                    @endif
+                        <x-navlist.item :href="route('conversations.index')"
+                            :current="request()->routeIs('conversations.index')" :badge="true">
+                            {{ __('My conversations') }}
+                        </x-navlist.item>
+
+                        <x-navlist.item :href="route('ratings.index')" :current="request()->routeIs('ratings.index')">
+                            {{ __('My ratings') }}
+                        </x-navlist.item>
                 @else
-                    {{-- Freelancer user nav links --}}
-                    <x-navlist.item :href="route('freelancer.bids')"
-                        :current="request()->routeIs('freelancer.bids')">
-                        {{ __('Bided projects') }}
-                    </x-navlist.item>
-
-                    <x-navlist.item :href="route('freelancer.won.projects')"
-                        :current="request()->routeIs('freelancer.won.projects')">
-                        {{ __('Won projects') }}
+                    {{-- Admin user links --}}
+                    <x-navlist.item :href="route('admin.clients')" :current="request()->routeIs('admin.clients')">
+                        {{ __('All client users') }}
                     </x-navlist.item>
                 @endif
 
-                <x-navlist.item :href="route('conversations.index')" :current="request()->routeIs('conversations.index')" :badge="true">
-                    {{ __('My conversations') }}
-                </x-navlist.item>
-
-                <x-navlist.item :href="route('ratings.index')" :current="request()->routeIs('ratings.index')">
-                    {{ __('My ratings') }}
-                </x-navlist.item>
-            
             </x-navlist.group>
         </x-navlist>
 
@@ -165,8 +172,8 @@
     {{ $slot }}
 
     {{-- CUSTOM JS --}}
-    <script src="{{ asset('/js/newMessagesCheck.js') }}"></script>  
-    <script src="{{ asset('/js/countdownTimer.js') }}"></script>  
+    <script src="{{ asset('/js/newMessagesCheck.js') }}"></script>
+    <script src="{{ asset('/js/countdownTimer.js') }}"></script>
 
 </body>
 

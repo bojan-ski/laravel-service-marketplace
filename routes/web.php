@@ -10,6 +10,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';
 require __DIR__ . '/projects.php';
 require __DIR__ . '/bids.php';
