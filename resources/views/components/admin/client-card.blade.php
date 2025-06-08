@@ -24,6 +24,9 @@
     {{-- num of projects --}}
     <x-admin.client-card-data label='Projects' :data="$client->projects_count"/>
 
+    {{-- num of conversations --}}
+    <x-admin.client-card-data label='Conversations' :data="$client->conversations_count"/>
+
     {{-- link to selected client user details --}}
     <a href="{{ route('admin.client', $client) }}"
         class="block text-center bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded cursor-pointer transition">

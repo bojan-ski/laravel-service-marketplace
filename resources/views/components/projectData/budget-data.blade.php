@@ -6,7 +6,7 @@
 
 <div class="{{ $divCss }}">
     <p class="mr-2 {{ $paragraphCss }}">
-        {{ strtoupper($project->budget_type) }}:
+        {{ strtoupper($project->budget_type) }}
     </p>
     @if ($project->budget_type == 'fixed')
         <p class="{{ $paragraphCss }}">
