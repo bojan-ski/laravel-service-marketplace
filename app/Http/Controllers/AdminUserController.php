@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bid;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Project;
@@ -120,5 +121,39 @@ class AdminUserController extends Controller
 
         // display/return view
         return view('adminUser.projects-list')->with('allProjects', $allProjects);
+    }
+
+    /**
+     * Display a listing of the resource - all submitted bids
+     */
+    public function allBids(): View
+    {
+        // get all projects
+        $allBids = Bid::latest()->paginate(12);
+
+        // display/return view
+        return view('adminUser.bids-list')->with('allBids', $allBids);
+    }
+
+    /**
+     * Apply select option - filter feature - submitted bids
+     */
+    public function filterBids(Request $request): View
+    {
+        // validate form data
+        $formData = $request->validate([
+            'filter_bids' => 'required|string|in:all,pending,accepted,rejected'
+        ]);
+
+        $bidStatus = $formData['filter_bids'];
+        
+        // check if form data == 'all'
+        if ($bidStatus == 'all') return $this->allBids();
+
+        // get freelance user bids based on select option
+        $allBids = Bid::where('status', $bidStatus)->latest()->paginate(12);
+
+        // display/return view
+        return view('adminUser.bids-list')->with('allBids', $allBids);
     }
 }
