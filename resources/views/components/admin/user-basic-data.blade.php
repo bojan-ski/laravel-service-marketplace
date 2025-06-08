@@ -3,7 +3,7 @@
     'email'
 ])
 
-<section class="user-profile-data mb-5">
+<section class="user-profile-data border-b pb-2 mb-5">
     <p class="text-xl mb-3">
         <span>
             Name:
