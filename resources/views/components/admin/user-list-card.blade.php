@@ -33,6 +33,6 @@
     {{-- link to selected user details --}}
     <a href="{{ route($route, $user) }}"
         class="block text-center bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded cursor-pointer transition">
-        See details
+        See user details
     </a>
 </div>

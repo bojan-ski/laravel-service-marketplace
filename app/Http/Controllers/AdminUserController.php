@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Rating;
@@ -16,7 +17,6 @@ class AdminUserController extends Controller
     {
         // get all client users
         $allClientUsers = User::where('account_type', 'client')
-            // ->with(['projects:id', 'clientConversations:id'])
             ->latest()
             ->paginate(12);
 
@@ -56,7 +56,6 @@ class AdminUserController extends Controller
     {
         // get all freelancer users
         $allFreelancerUsers = User::where('account_type', 'freelancer')
-            // ->with(['bids:id', 'freelancerConversations:id'])
             ->latest()
             ->paginate(12);
 
@@ -87,5 +86,17 @@ class AdminUserController extends Controller
             ->with('freelancer', $freelancer)
             ->with('freelancerUserBids', $freelancerUserBids)
             ->with('freelancerUserConversations', $freelancerUserConversations);
+    }
+
+    /**
+     * Display a listing of the resource - all projects
+     */
+    public function allProjects(): View
+    {
+        // get all projects
+        $allProjects = Project::latest()->paginate(12);
+
+        // display/return view
+        return view('adminUser.projects-list')->with('allProjects', $allProjects);
     }
 }

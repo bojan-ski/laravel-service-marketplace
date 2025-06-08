@@ -10,4 +10,6 @@ Route::middleware(['auth', AdminUserMiddleware::class])->group(function () {
 
     Route::get('/freelancer_users', [AdminUserController::class, 'allFreelancerUsers'])->name('admin.freelancers');
     Route::get('/freelancer_users/{freelancer}', [AdminUserController::class, 'freelancerUser'])->name('admin.freelancer');
+
+    Route::get('/all_projects', [AdminUserController::class, 'allProjects'])->name('admin.projects');
 });

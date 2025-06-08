@@ -23,7 +23,7 @@ class OpenProjectRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:64',
-            'description' => 'required|string|max:5000',
+            'description' => 'required|string|min:250|max:5000',
             'requirements' => 'required|string|max:3000',
             'budget_type' => 'required|string|in:fixed,hourly',
             'budget_amount' => 'nullable|numeric|min:0',
