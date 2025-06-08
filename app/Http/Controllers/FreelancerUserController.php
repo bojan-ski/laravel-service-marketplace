@@ -30,7 +30,7 @@ class FreelancerUserController extends Controller
     }
 
     /**
-     * Display freelance user bids
+     * Apply select option - filter feature
      */
     public function applySelectOptionBids(Request $request): View
     {

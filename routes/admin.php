@@ -12,4 +12,5 @@ Route::middleware(['auth', AdminUserMiddleware::class])->group(function () {
     Route::get('/freelancer_users/{freelancer}', [AdminUserController::class, 'freelancerUser'])->name('admin.freelancer');
 
     Route::get('/all_projects', [AdminUserController::class, 'allProjects'])->name('admin.projects');
+    Route::get('/all_projects/apply_select', [AdminUserController::class, 'filterProjects'])->name('admin.projects.filter');
 });

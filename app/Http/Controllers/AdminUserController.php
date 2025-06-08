@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Project;
 use App\Models\Rating;
 use App\Models\User;
 
@@ -95,6 +95,28 @@ class AdminUserController extends Controller
     {
         // get all projects
         $allProjects = Project::latest()->paginate(12);
+
+        // display/return view
+        return view('adminUser.projects-list')->with('allProjects', $allProjects);
+    }
+
+    /**
+     * Apply select option - filter feature - projects
+     */
+    public function filterProjects(Request $request): View
+    {
+        // validate form data
+        $formData = $request->validate([
+            'filter_projects' => 'required|string|in:all,in_progress,completed,cancelled'
+        ]);
+
+        $projectStatus = $formData['filter_projects'];
+        
+        // check if form data == 'all'
+        if ($projectStatus == 'all') return $this->allProjects();
+
+        // get freelance user bids based on select option
+        $allProjects = Project::where('status', $projectStatus)->latest()->paginate(12);
 
         // display/return view
         return view('adminUser.projects-list')->with('allProjects', $allProjects);
