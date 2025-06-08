@@ -16,7 +16,7 @@ class AdminUserController extends Controller
     {
         // get all client users
         $allClientUsers = User::where('account_type', 'client')
-            ->with(['projects:id', 'clientConversations:id'])
+            // ->with(['projects:id', 'clientConversations:id'])
             ->latest()
             ->paginate(12);
 
@@ -24,7 +24,7 @@ class AdminUserController extends Controller
             $client->client_avg_received_rate = Rating::where('client_id', $client->id)->avg('client_received_rate');
             $client->client_num_received_ratings = Rating::where('client_id', $client->id)->count('client_received_rate');
             $client->projects_count = $client->projects()->count();
-            $client->conversations_count = $client->Conversations()->count();
+            $client->conversations_count = $client->clientConversations()->count();
         });
 
         // display/return view
@@ -47,5 +47,45 @@ class AdminUserController extends Controller
             ->with('client', $client)
             ->with('clientUserProjects', $clientUserProjects)
             ->with('clientUserConversations', $clientUserConversations);
+    }
+
+    /**
+     * Display a listing of the resource - all freelancer users
+     */
+    public function allFreelancerUsers(): View
+    {
+        // get all freelancer users
+        $allFreelancerUsers = User::where('account_type', 'freelancer')
+            // ->with(['bids:id', 'freelancerConversations:id'])
+            ->latest()
+            ->paginate(12);
+
+        $allFreelancerUsers->each(function ($freelancer) {
+            $freelancer->user_avg_received_rate = Rating::where('freelancer_id', $freelancer->id)->avg('freelancer_received_rate');
+            $freelancer->user_num_received_ratings = Rating::where('freelancer_id', $freelancer->id)->count('freelancer_received_rate');
+            $freelancer->bids_count = $freelancer->submittedBids()->count();
+            $freelancer->conversations_count = $freelancer->freelancerConversations()->count();
+        });
+
+        // display/return view
+        return view('adminUser.freelancers-list')->with('allFreelancerUsers', $allFreelancerUsers);
+    }
+
+    /**
+     * Display the specified resource - selected freelancer users
+     */
+    public function freelancerUser(User $freelancer): View
+    {
+        // get freelancer submitted bids
+        $freelancerUserBids = $freelancer->submittedBids;
+
+        // get freelancer user conversations
+        $freelancerUserConversations = $freelancer->freelancerConversations;
+
+        // display/return view
+        return view('adminUser.selected-freelancer')
+            ->with('freelancer', $freelancer)
+            ->with('freelancerUserBids', $freelancerUserBids)
+            ->with('freelancerUserConversations', $freelancerUserConversations);
     }
 }

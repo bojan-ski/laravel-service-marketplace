@@ -1,6 +1,6 @@
 @props([
-    'label',
-    'data'
+'label',
+'data'
 ])
 
 <div class="mb-3 pb-2 border-b">

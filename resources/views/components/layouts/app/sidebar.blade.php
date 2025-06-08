@@ -73,6 +73,10 @@
                     <x-navlist.item :href="route('admin.clients')" :current="request()->routeIs('admin.clients')">
                         {{ __('All client users') }}
                     </x-navlist.item>
+
+                    <x-navlist.item :href="route('admin.freelancers')" :current="request()->routeIs('admin.freelancers')">
+                        {{ __('All freelancer users') }}
+                    </x-navlist.item>
                 @endif
 
             </x-navlist.group>
