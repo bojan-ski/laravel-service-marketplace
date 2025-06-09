@@ -20,7 +20,7 @@ class IsConversationParticipantMiddleware
         $conversation = $request->route('conversation');
 
         // check if user is participant of the conversation owner
-        if ($conversation && ($conversation->client_id == Auth::id() || $conversation->freelancer_id == Auth::id())) {
+        if ($conversation && ($conversation->client_id == Auth::id() || $conversation->freelancer_id == Auth::id() || Auth::user()->account_type == 'admin')) {
             return $next($request);
         }
 

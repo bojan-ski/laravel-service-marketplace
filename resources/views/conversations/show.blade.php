@@ -36,9 +36,11 @@
             </div>
 
             {{-- new message form --}}
-            <div class="send-message-form">
-                <x-conversations.send-message-form :conversation="$conversation" />
-            </div>
+            @if (Auth::user()->account_type !== 'admin')
+                <div class="send-message-form">
+                    <x-conversations.send-message-form :conversation="$conversation" />
+                </div>                
+            @endif
         </section>
     </div>
 

@@ -63,7 +63,7 @@ class ConversationController extends Controller
 
         // mark received messages as read
         $messages->each(function ($message) {
-            if ($message->sender_id != Auth::id() && is_null($message->read_at)) {
+            if ($message->sender_id != Auth::id() && is_null($message->read_at) && Auth::user()->account_type !== 'admin') {
                 $message->markAsRead();
             }
         });
