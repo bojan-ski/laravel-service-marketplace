@@ -1,7 +1,7 @@
 <x-layouts.app :title="__($client->name)">
 
     {{-- Client information --}}
-    <x-admin.user-basic-data :name="$client->name" :email="$client->email" />
+    <x-admin.user-basic-data :user="$client" />
 
     {{-- Client projects & conversation --}}
     <section class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">

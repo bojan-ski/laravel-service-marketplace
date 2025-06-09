@@ -1,7 +1,7 @@
 <x-layouts.app :title="__($freelancer->name)">
 
     {{-- Freelancer information --}}
-    <x-admin.user-basic-data :name="$freelancer->name" :email="$freelancer->email" />
+    <x-admin.user-basic-data :user="$freelancer" />
 
     {{-- Freelancer submitted bids & conversation --}}
     <section class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">

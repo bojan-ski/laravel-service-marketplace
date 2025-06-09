@@ -40,7 +40,11 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('projects.index', absolute: false));
+        if(Auth::user()->account_type == 'admin'){
+            return redirect()->intended(route('admin.clients', absolute: false));
+        }else{
+            return redirect()->intended(route('projects.index', absolute: false));
+        }
     }
 
     public function destroy(Request $request): RedirectResponse

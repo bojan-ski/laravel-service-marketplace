@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bid;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Project;
 use App\Models\Rating;
 use App\Models\User;
+use App\Models\Bid;
 
 class AdminUserController extends Controller
 {
@@ -87,6 +88,23 @@ class AdminUserController extends Controller
             ->with('freelancer', $freelancer)
             ->with('freelancerUserBids', $freelancerUserBids)
             ->with('freelancerUserConversations', $freelancerUserConversations);
+    }
+
+    /**
+     * Delete app user account
+     */
+    public function deleteUser(User $user): RedirectResponse
+    {
+        try {
+            // delete app user from db
+            $user->delete();
+
+            // redirect admin user with success msg
+            return redirect()->route('admin.clients')->with('success', 'User account has been deleted');
+        } catch (\Exception $e) {
+            // redirect user with error msg
+            return back()->with('error', 'There was an error deleting user account');
+        }
     }
 
     /**
