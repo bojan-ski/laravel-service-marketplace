@@ -20,7 +20,7 @@ class IsMessageOwnerMiddleware
         $message = $request->route('message');
 
         // check if user is project owner
-        if($message && $message->sender_id !== Auth::id()) return redirect()->route('projects.index');
+        if($message && $message->sender_id !== Auth::id()) return redirect()->route('home');
         
         return $next($request);
     }

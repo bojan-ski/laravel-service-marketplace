@@ -3,8 +3,8 @@
 'bid'
 ])
 
-{{-- if project owner (client user) see all submitted bids | freelancer user can see only his/her submitted bid --}}
-@if ($project->user_id == Auth::id() || $bid->freelancer_id == Auth::id())
+{{-- if project owner (client user) or admin user see all submitted bids | freelancer user can see only his/her submitted bid --}}
+@if ($project->user_id == Auth::id() || $bid->freelancer_id == Auth::id() || Auth::user()->account_type == 'admin')
     <div class="border rounded-lg p-4">
 
         {{-- Bid status --}}

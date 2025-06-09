@@ -32,7 +32,7 @@
 
     {{-- If open project --}}
     @if($project->status == 'open')
-        @if (Auth::id() == $project->user_id)
+        @if (Auth::id() == $project->user_id || Auth::user()->account_type == 'admin')
             {{-- Client user - Manage open project --}}
             <x-projectData.client.manage-open-project :project="$project" />
         @elseif(Auth::user()->account_type == 'freelancer')
@@ -53,7 +53,7 @@
     @endif  
 
     {{-- If bid accepted - display accepted bid & freelancer data --}}
-    @if($freelancerData && (Auth::id() == $project->user_id || Auth::id() == $freelancerData->id))
+    @if($freelancerData && (Auth::id() == $project->user_id || Auth::id() == $freelancerData->id || Auth::user()->account_type == 'admin'))
         <x-projectData.accepted-bid-information 
             :project="$project" 
             :acceptedBidData="$acceptedBidData"

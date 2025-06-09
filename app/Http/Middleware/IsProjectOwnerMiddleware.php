@@ -20,8 +20,8 @@ class IsProjectOwnerMiddleware
         $project = $request->route('project');
 
         // check if user is project owner
-        if($project && $project->user_id !== Auth::id()) return redirect()->route('projects.index');
+        if($project && ($project->user_id == Auth::id() || Auth::user()->account_type == 'admin')) return $next($request);
 
-        return $next($request);
+        return redirect()->route('home');        
     }
 }

@@ -24,6 +24,6 @@ class IsConversationParticipantMiddleware
             return $next($request);
         }
 
-        return redirect()->route('projects.index');
+        return redirect()->route('home');
     }
 }

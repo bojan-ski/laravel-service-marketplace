@@ -7,7 +7,7 @@
 <section class="mb-5">
     <p>
         <span class="font-semibold">
-            {{ $project->client->name }} - average rating:
+            {{ $project->client->name }} -
         </span>
         <span class="font-bold">
             {{ round($averageClientRate) }} ({{ $clientNumberOfReceivedRatings }})

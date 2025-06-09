@@ -20,7 +20,7 @@ class IsBidOwnerMiddleware
         $bid = $request->route('bid');
 
         // check if user is project owner
-        if($bid && $bid->freelancer_id !== Auth::id()) return redirect()->route('projects.index');
+        if($bid && $bid->freelancer_id !== Auth::id()) return redirect()->route('home');
 
         return $next($request);
     }

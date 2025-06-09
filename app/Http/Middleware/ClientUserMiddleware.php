@@ -16,7 +16,7 @@ class ClientUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->account_type !== 'client') return redirect()->route('projects.index');
+        if (Auth::user()->account_type !== 'client') return redirect()->route('home');
 
         return $next($request);
     }

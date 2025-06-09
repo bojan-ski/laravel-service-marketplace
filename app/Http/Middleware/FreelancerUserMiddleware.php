@@ -16,7 +16,7 @@ class FreelancerUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->account_type !== 'freelancer') return redirect()->route('projects.index');
+        if (Auth::user()->account_type !== 'freelancer') return redirect()->route('home');
 
         return $next($request);
     }

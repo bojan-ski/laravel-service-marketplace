@@ -126,7 +126,7 @@ class AdminUserController extends Controller
     {
         // validate form data
         $formData = $request->validate([
-            'filter_projects' => 'required|string|in:all,in_progress,completed,cancelled'
+            'filter_projects' => 'required|string|in:all,open,in_progress,completed,cancelled'
         ]);
 
         $projectStatus = $formData['filter_projects'];
