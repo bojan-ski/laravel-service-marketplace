@@ -188,6 +188,7 @@
     {{ $slot }}
 
     {{-- CUSTOM JS --}}
+    <script src="{{ asset('/js/loading.js') }}"></script>
     <script src="{{ asset('/js/newMessagesCheck.js') }}"></script>
     <script src="{{ asset('/js/countdownTimer.js') }}"></script>
 
