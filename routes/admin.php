@@ -18,4 +18,6 @@ Route::middleware(['auth', AdminUserMiddleware::class])->group(function () {
 
     Route::get('/all_bids', [AdminUserController::class, 'allBids'])->name('admin.bids');
     Route::get('/all_bids/apply_select', [AdminUserController::class, 'filterBids'])->name('admin.bids.filter');
+
+    Route::get('/all_conversations', [AdminUserController::class, 'allConversations'])->name('admin.conversations');
 });

@@ -85,6 +85,10 @@
                     <x-navlist.item :href="route('admin.bids')" :current="request()->routeIs('admin.bids')">
                         {{ __('All bids') }}
                     </x-navlist.item>
+
+                    <x-navlist.item :href="route('admin.conversations')" :current="request()->routeIs('admin.conversations')">
+                        {{ __('All conversations') }}
+                    </x-navlist.item>
                 @endif
 
             </x-navlist.group>

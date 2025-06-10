@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Rating;
 use App\Models\User;
 use App\Models\Bid;
+use App\Models\Conversation;
 
 class AdminUserController extends Controller
 {
@@ -173,5 +174,17 @@ class AdminUserController extends Controller
 
         // display/return view
         return view('adminUser.bids-list')->with('allBids', $allBids);
+    }
+
+    /**
+     * Display a listing of the resource - all conversation
+     */
+    public function allConversations(): View
+    {
+        // get all projects
+        $allConversations = Conversation::latest()->paginate(12);
+
+        // display/return view
+        return view('adminUser.conversations-list')->with('allConversations', $allConversations);
     }
 }

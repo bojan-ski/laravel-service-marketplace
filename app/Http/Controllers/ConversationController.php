@@ -38,7 +38,7 @@ class ConversationController extends Controller
     public function thread(Project $project): RedirectResponse
     {
         // check if is authorized
-        if (Auth::id() == $project->user_id || Auth::id() == $project->acceptedBid->freelancer_id) {
+        if (Auth::id() == $project->user_id || Auth::id() == $project->acceptedBid->freelancer_id || Auth::user()->account_type == 'admin') {
             // check if existing conversation
             $conversation = Conversation::firstOrCreate([
                 'project_id' => $project->id,
