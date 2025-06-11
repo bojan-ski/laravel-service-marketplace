@@ -94,14 +94,14 @@ class AdminUserController extends Controller
     /**
      * Delete app user account
      */
-    public function deleteUser(User $user): RedirectResponse
+    public function deleteUser(User $user, string $backPath): RedirectResponse
     {
         try {
             // delete app user from db
             $user->delete();
 
             // redirect admin user with success msg
-            return redirect()->route('admin.clients')->with('success', 'User account has been deleted');
+            return redirect('/' . $backPath)->with('success', 'User account has been deleted');
         } catch (\Exception $e) {
             // redirect user with error msg
             return back()->with('error', 'There was an error deleting user account');

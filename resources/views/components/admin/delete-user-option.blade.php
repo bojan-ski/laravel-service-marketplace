@@ -1,4 +1,7 @@
 @props(['user'])
+@php
+    $segments = request()->segments();
+@endphp
 
 <section id="delete-user-option" x-data="{ open: false }" class="mb-3">
     {{-- Open/Close Modal --}}
@@ -14,7 +17,7 @@
                 Are you sure you want to delete {{ $user->username }}?
             </h3>
 
-            <x-form method="DELETE" :action="route('admin.deleteUser', $user)">
+            <x-form method="DELETE" :action="route('admin.deleteUser', [$user, $segments[0]])">
                 {{-- submit & cancel options --}}
                 <div class="text-center">
                     <button type="button" @click="open = false"

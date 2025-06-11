@@ -21,6 +21,6 @@ class Loading extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.loading');
+        return view('components.custom.loading');
     }
 }

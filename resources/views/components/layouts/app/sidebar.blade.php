@@ -11,7 +11,7 @@
             <x-phosphor-x aria-hidden="true" width="20" height="20" />
         </x-sidebar.toggle>
 
-        <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2">
+        <a href="{{ route('home') }}" class="mr-5 flex items-center space-x-2">
             <x-app-logo />
         </a>
 

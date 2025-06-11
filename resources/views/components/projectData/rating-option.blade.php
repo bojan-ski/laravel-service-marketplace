@@ -4,6 +4,7 @@
 ])
 
 <section class="ratings border-t pt-5 mb-5">
+    
     <p class="mb-3">
         <span>Client - {{ $project->client->name }} - rated: </span>
         <span class="font-bold">

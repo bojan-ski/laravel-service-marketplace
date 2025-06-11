@@ -12,5 +12,5 @@ Broadcast::channel('chat.{chatHash}', function ($user, $chatHash) {
 
     if (!$conversation) return false;
 
-    return ($user->id == $conversation->client_id || $user->id == $conversation->freelancer_id);
+    return ($user->id == $conversation->client_id || $user->id == $conversation->freelancer_id || $user->account_type == 'admin');
 });

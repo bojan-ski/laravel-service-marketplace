@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('freelancer_received_rate')->nullable();
             $table->timestamps();
 
-            // one rate per project
+            // one rating per project
             $table->unique(['project_id']);
         });
     }

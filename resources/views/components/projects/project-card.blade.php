@@ -2,9 +2,9 @@
 
 <div class="border rounded-lg p-4">
     {{-- title --}}
-    <h2 class="text-center text-lg font-semibold mb-2">
+    <h3 class="text-center text-lg font-semibold mb-2">
         {{ $project->title }}
-    </h2>
+    </h3>
 
     {{-- description --}}
     <p class="text-justify mb-3">

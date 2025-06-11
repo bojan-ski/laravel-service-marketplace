@@ -4,9 +4,9 @@
     {{-- Status & Delete bid --}}
     <div class="flex items-center justify-between mb-3 pb-2 border-b">
         {{-- status --}}
-        <h2 class="text-lg font-semibold">
+        <h4 class="text-lg font-semibold">
             {{ strtoupper($bid->status) }}
-        </h2>
+        </h4>
 
         @if ($bid->status == 'pending')
             {{-- delete bid --}}
@@ -16,9 +16,9 @@
 
     {{-- budget type --}}
     <div class="mb-3 pb-2 border-b">
-        <h2 class="mb-1">
+        <h4 class="mb-1">
             Budget type:
-        </h2>
+        </h4>
 
         <p class="font-semibold">
             {{ strtoupper($bid->budget_type) }}
@@ -27,9 +27,9 @@
 
     {{-- bid amount --}}
     <div class="mb-3 pb-2 border-b">
-        <h2 class="mb-1">
+        <h4 class="mb-1">
             Bid amount:
-        </h2>
+        </h4>
 
         <p class="font-semibold">
             {{ $bid->bid_amount }}
@@ -38,9 +38,9 @@
 
     {{-- estimated days --}}
     <div class="mb-3 pb-2 border-b">
-        <h2 class="mb-1">
+        <h4 class="mb-1">
             Estimated days:
-        </h2>
+        </h4>
 
         <p class="font-semibold">
             {{ $bid->estimated_days }}
@@ -49,9 +49,9 @@
 
     {{-- bid message --}}
     <div class="mb-3">
-        <h2 class="mb-1">
+        <h4 class="mb-1">
             Message:
-        </h2>
+        </h4>
 
         <p class="font-semibold">
             {{ $bid->bid_message }}

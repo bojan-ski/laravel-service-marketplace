@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('freelancer_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
 
-            //one conversation per project between client & freelancer
+            // one conversation per project between client & freelancer
             $table->unique(['project_id', 'client_id', 'freelancer_id'], 'unique_project_chat');
         });
     }

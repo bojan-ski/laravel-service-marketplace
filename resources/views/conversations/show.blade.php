@@ -39,7 +39,7 @@
             @if (Auth::user()->account_type !== 'admin')
                 <div class="send-message-form">
                     <x-conversations.send-message-form :conversation="$conversation" />
-                </div>                
+                </div>
             @endif
         </section>
     </div>

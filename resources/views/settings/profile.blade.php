@@ -5,28 +5,8 @@
         <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
             <x-form method="put" action="{{ route('settings.profile.update') }}" class="my-6 w-full space-y-6">
                 <x-input type="text" :label="__('Name')" :value="$user->name" name="name" required autofocus autocomplete="name" />
-
-                <div>
-                    <x-input type="email" :label="__('Email')" :value="$user->email" name="email" required autocomplete="email" />
-
-                    @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
-                        <div>
-                            <x-text class="mt-4">
-                                {{ __('Your email address is unverified.') }}
-
-                                <x-button variant="link" :formaction="route('verification.store')" name="_method" value="post">
-                                    {{ __('Click here to re-send the verification email.') }}
-                                </x-button>
-                            </x-text>
-
-                            @if (session('status') === 'verification-link-sent')
-                                <x-text class="mt-2 font-medium !dark:text-green-400 !text-green-600">
-                                    {{ __('A new verification link has been sent to your email address.') }}
-                                </x-text>
-                            @endif
-                        </div>
-                    @endif
-                </div>
+                    
+                <x-input type="email" :label="__('Email')" :value="$user->email" name="email" required autocomplete="email" />
 
                 <div class="flex items-center gap-4">
                     <div class="flex items-center justify-end">
