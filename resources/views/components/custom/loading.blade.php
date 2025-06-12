@@ -1,11 +1,9 @@
 <div id="loading"
-    class="hidden fixed inset-0 bg-white bg-opacity-90 z-50 flex flex-col items-center justify-center space-y-6">
+    class="hidden fixed inset-0 z-50 bg-white bg-opacity-90 flex flex-col items-center justify-center space-y-6 transition-opacity duration-300">
 
-    <div class="relative w-40 h-40">
-        <div class="absolute inset-0 rounded-full border-4 border-dashed border-blue-700 animate-spin"></div>
+    <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+
+    <div class="text-center">
+        <p class="text-lg text-gray-800 font-medium animate-pulse">Loading, please wait...</p>
     </div>
-
-    <p class="text-blue-700 text-2xl font-bold tracking-wide">
-        Loading... Please wait!
-    </p>
 </div>
