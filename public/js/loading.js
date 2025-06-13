@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // if on conversation.show page -> form: no loading
+    const conversationForm = document.getElementById('message-form');
+    if (conversationForm) return;
+
     // display loading on form submission
     document.querySelectorAll('form').forEach(form => {
         form.addEventListener('submit', function () {

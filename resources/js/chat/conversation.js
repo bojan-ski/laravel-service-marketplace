@@ -1,6 +1,7 @@
 import { initializePusher, subscribeToChannel } from './pusherSetup';
 import { addMessage } from './addMessage';
 import { openDeleteModal, closeDeleteModal, confirmDelete, removeMessage } from './deleteMessage';
+import { receivedMessage } from './receivedMessage';
 
 document.addEventListener('DOMContentLoaded', () => {
     // get page variables
@@ -77,4 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openDeleteModal = openDeleteModal;
     window.closeDeleteModal = closeDeleteModal;
     window.confirmDelete = async () => await confirmDelete(csrfToken);
+
+    // has received message
+    receivedMessage();
+    // check if received message every 10s
+    setInterval(receivedMessage, 10000);
 });
